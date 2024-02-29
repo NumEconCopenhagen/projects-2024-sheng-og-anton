@@ -1,9 +1,8 @@
-# \[Group name\]
+# \[Sheng og Anton\]
 
 **Group members:**
-- A
-- B
-- C
+- Sheng
+- Anton
 
 This repository contains  
 1. Inaugural project. 
