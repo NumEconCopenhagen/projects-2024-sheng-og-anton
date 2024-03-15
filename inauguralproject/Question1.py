@@ -1,7 +1,6 @@
-import numpy as np
 import matplotlib.pyplot as plt
 
-class EdgeworthBox:
+class EdgeworthBoxClass:
     def __init__(self):
         # Initial endowment
         self.w_A1 = 0.8
@@ -66,7 +65,7 @@ class EdgeworthBox:
         plt.show()
 
 # Create an instance of EdgeworthBox
-box = EdgeworthBox()
+box = EdgeworthBoxClass()
 
 # Plot the Edgeworth box with Pareto improvements for set C
 box.plot_edgeworth_box()
