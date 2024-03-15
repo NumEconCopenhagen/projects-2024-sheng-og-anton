@@ -25,7 +25,7 @@ class EdgeworthBoxClass:
 
     def pareto_improvements(self):
         pareto_improvements = []
-
+        # Using a nested for loop to find and define x_A1 and x_A2
         for i in range(self.N + 1):
             x_A1 = i / self.N
             for j in range(self.N + 1):
@@ -35,10 +35,11 @@ class EdgeworthBoxClass:
                 x_B1 = 1 - x_A1
                 x_B2 = 1 - x_A2
 
-                # Check if it's a Pareto improvement relative to the endowment and satisfies set C conditions
+                # Checking the Pareto improvement relative to the endowment
                 if self.u_A(x_A1, x_A2) >= self.u_A(self.w_A1, self.w_A2) and \
                         self.u_B(x_B1, x_B2) >= self.u_B(self.w_B1, self.w_B2) and \
                         x_B1 == 1 - x_A1 and x_B2 == 1 - x_A2:
+                    # Storing combination of x_A1 and x_A2.
                     pareto_improvements.append((x_A1, x_A2))
 
         return pareto_improvements
@@ -48,21 +49,22 @@ class EdgeworthBoxClass:
 
         # Plot the Edgeworth box with Pareto improvements
         fig, ax = plt.subplots(figsize=(8, 8))
-        ax.set_xlabel("$x_1^A$")
-        ax.set_ylabel("$x_2^A$")
+        ax.set_xlabel("$x_1^A$") # setting x-axis label
+        ax.set_ylabel("$x_2^A$") # setting y-axis label
+        # Setting the limits
         ax.set_xlim(0, 1)
         ax.set_ylim(0, 1)
 
-        # Plot endowment points
+        # Plotting endowment points
         ax.scatter(self.w_A1, self.w_A2, marker='s', color='black', label='Endowment A')
         ax.scatter(self.w_B1, self.w_B2, marker='s', color='red', label='Endowment B')
 
-        # Plot Pareto improvements
+        # Plotting Pareto improvements
         for allocation in result:
-            ax.scatter(allocation[0], allocation[1], color='green')
+            ax.scatter(allocation[0], allocation[1], color='green') 
 
-        ax.legend()
-        plt.show()
+        ax.legend() # adding legend
+        plt.show() # display the plot
 
 # Create an instance of EdgeworthBox
 box = EdgeworthBoxClass()
