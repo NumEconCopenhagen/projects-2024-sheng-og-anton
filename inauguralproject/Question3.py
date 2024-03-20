@@ -50,25 +50,3 @@ class MarketClearPriceClass:
             total_squared_errors += eps1 ** 2 + eps2 ** 2  # Accumulate squared errors
         return total_squared_errors
 
-# Initial parameters
-endowments = (0.8, 0.3)
-alphas = 1/3
-betas = 2/3
-N = 75  # Define the value of N
-
-# Set up optimization problem
-initial_guess = (1, 1)  # Initial guess for prices p1 and p2
-bounds = [(0.5, 2.5), (None, None)]  # Bounds for p1 and p2 (lower, upper)
-
-# Create an instance of MarketClearPriceClass
-market_clear_price = MarketClearPriceClass()
-
-# Call the optimizer with the objective function
-res = optimize.minimize(
-    lambda price: market_clear_price.objective_function(endowments, alphas, betas, N), initial_guess,
-    method="SLSQP", bounds=bounds
-)
-
-# Extract the market clearing price p1 from the optimization result
-market_clearing_price_p1 = res.x[0]
-print("Market Clearing Price (p1):", market_clearing_price_p1)
