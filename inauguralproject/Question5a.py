@@ -27,14 +27,3 @@ class AgentOptimization:
         result = minimize(self.objective, self.x0, bounds=self.bounds, constraints=constraints)
         return result.x, -result.fun  # Return optimal allocation and utility
 
-# Initial guess for x_A1 and x_A2
-x0 = [0.5, 0.5]  # Initial guess for x_A1 and x_A2
-alpha = 1/3  # Example value for alpha
-
-# Define the bounds for x_A1 and x_A2
-bounds = [(0, 1), (0, 1)]
-
-# Create an instance of AgentOptimization and solve the problem
-agent_opt = AgentOptimization(0.8, 0.3, x0, alpha, bounds)
-optimal_allocation, optimal_utility = agent_opt.solve()
-
