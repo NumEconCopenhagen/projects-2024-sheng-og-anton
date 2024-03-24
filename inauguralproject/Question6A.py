@@ -20,7 +20,7 @@ class UtilitarianSocialPlanner:
     # d. We aggregate the utility functions
     def aggregate_utility_functions(self, x):
         xA1, xA2 = x
-        return -(self.u_A(xA1, xA2) + self.u_B(1 - xA1, 1 - xA2))
+        return -(self.utility_A(xA1, xA2) + self.utility_B(1 - xA1, 1 - xA2))
     
     # e. We find the optimal allocations for the utilitarian social planner
     def optimal_allocation(self):

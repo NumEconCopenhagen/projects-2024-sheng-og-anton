@@ -42,7 +42,7 @@ class OptimizationWithNoUpperBound:
 
     # e. We calculate the optimal allocation for consumer A
     def calculate_optimal_allocation(self):
-        best_price = self.find_best_price()
+        best_price = self.optimal_price()
         optimal_allocation_A1 = self.alpha * (best_price * self.wA1 + self.p2 * self.wA2) / best_price
         optimal_allocation_A2 = (1 - self.alpha) * (best_price * self.wA1 + self.p2 * self.wA2) / self.p2
         return optimal_allocation_A1, optimal_allocation_A2
