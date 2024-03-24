@@ -1,7 +1,3 @@
-# Question 4.A
-
-# 1. We import the optimizer
-from scipy import optimize 
 
 # 2. We create the class
 class MaximizationConsumerA:
@@ -25,4 +21,4 @@ class MaximizationConsumerA:
     # d. We define the objective function
     def utility_a_maximization(self, p1):
         x1A, x2A = self.demand_function_a(p1)
-        return -self.utility_function_a(x1A, x2A) 
+        return -self.utility_function_a(x1A, x2A)
