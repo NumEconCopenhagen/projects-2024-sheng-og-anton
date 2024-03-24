@@ -1,28 +1,27 @@
-# Exercise 7
-# 1. First we set a seed, so that we can get the same pseduo-random numbers for the endowments everytime we run the code.
-np.random.seed(69)
+# 1. We import the two packages
+import numpy as np
+import matplotlib.pyplot as plt
 
-# 2. Now we need to set the pseduo-random number of elements (50) in the set of endowments W 
-n = 50
-
-# 3. We generate psedou-random numbers for the endowments omegaA1 and omegaA2
-omegaA1 = np.random.uniform(0, 1, n)
-omegaA2 = np.random.uniform(0, 1, n)
-
-# 4. We now create the set of endowments based on our pseduo-random numbers
-W = np.column_stack((omegaA1, omegaA2))
-
-# 5. We can now begin plotting the total endowments
-plt.figure(figsize=(8, 6))
-plt.scatter(wA1, wA2, c='green')
-plt.title('The set of endowments with 50 elements')
-
-# a. We label the two axes in the diagram 
-plt.xlabel('ωA1')
-plt.ylabel('ωA2')
-
-# b. We add grids to the plot
-plt.grid(True)
-
-# c. We show the plot
-plt.show()
+# 2. We create the class 
+class TotalEndowments:
+    
+    # a. We generate a seed
+    def random_numbers(self, seed=69, n=50):
+        np.random.seed(seed) # We set a seed, so that we get the same pseduo-random numbers everytime
+        self.n = n # We create an attribute for the class
+    
+    # b. We generate the random endowments
+    def random_endowments(self):
+        w1A = np.random.uniform(0, 1, self.n) # Generates random number for endowment 1A
+        w2A = np.random.uniform(0, 1, self.n) # Generates random number for endowment 2A
+        return w1A, w2A
+    
+    # c. We generate the plot
+    def endowments_plot(self, wA1, wA2):
+        plt.figure(figsize=(8, 6)) # Sets the size of the figure
+        plt.scatter(w1A, w2A, c='green') # Creates a scatterplot
+        plt.title('The set of endowments with 50 elements') # Create a title
+        plt.xlabel('ωA1') # Labels the x-axis
+        plt.ylabel('ωA2') # Labels the y-axis
+        plt.grid(True) # Creates grids around the figure
+        plt.show() # Shows the figure
