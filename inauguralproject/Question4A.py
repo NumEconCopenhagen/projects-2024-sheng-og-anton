@@ -1,24 +1,44 @@
+import numpy as np
+from scipy import optimize
 
-# 2. We create the class
-class MaximizationConsumerA:
-    
-    # a. We define the parameters 
-    def __init__(self, alpha=1/3, w1A=0.8, w2A=0.3):
+# we create the class
+class UtilityOptimization:
+    def __init__(self, wA1, wA2, N, alpha, p2):
+        self.wA1 = wA1
+        self.wA2 = wA2
+        self.wB1 = 1 - wA1
+        self.wB2 = 1 - wA2
+        self.N = N
         self.alpha = alpha
-        self.w1A = w1A
-        self.w2A = w2A
+        self.p2 = p2
     
-    # b. We define the utility function for consumer A
-    def utility_function_a(self, x1A, x2A):
-        return x1A ** self.alpha * x2A ** (1 - self.alpha)
+    # We define the utility function
+    def utility_A(self, p1):
+        return -(1 - (1 - self.wB1) / p1) * (1 - (1 - self.wB2))
 
-    # c. We define the demand function for consumer A
-    def demand_function_a(self, p1, p2=1):
-        x1A_optimal = self.alpha * (p1 * self.w1A + p2 * self.w2A) / p1
-        x2A_optimal = (1 - self.alpha) * (p1 * self.w1A + p2 * self.w2A) / p2
-        return x1A_optimal, x2A_optimal
+    # We define the objective function
+    def maximize_A_utility(self, p1):
+        return -self.utility_A(p1)  # Negative sign because we are maximizing
 
-    # d. We define the objective function
-    def utility_a_maximization(self, p1):
-        x1A, x2A = self.demand_function_a(p1)
-        return -self.utility_function_a(x1A, x2A)
+    # We define the price vector
+    def find_optimal_price_and_allocation(self):
+        P1 = [0.5 + 2 * i / self.N for i in range(self.N + 1)]
+
+        max_utility = -np.inf
+        best_price = None
+
+        # We find the optimal price
+        for p1 in P1:
+            constraints = [{'type': 'ineq', 'fun': lambda p1: p1}]
+            bounds = [(0, 2.5)]  
+            solution = optimize.minimize(self.maximize_A_utility, [0.5], args=(self.wB1, self.wB2), bounds=bounds, constraints=constraints)
+            if solution.success:
+                utility = -solution.fun
+                if utility > max_utility:
+                    max_utility = utility
+                    best_price = solution.x[0]
+        # We find the optimal allocation
+        xA1_optimal = self.alpha * (best_price*self.wA1 + self.p2*self.wA2) / best_price
+        xA2_optimal = (1-self.alpha) * (best_price*self.wA1 + self.p2*self.wA2) / self.p2
+
+        return best_price, xA1_optimal, xA2_optimal
