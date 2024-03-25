@@ -16,6 +16,12 @@ class UtilityOptimization:
     def utility_A(self, p1):
         return -(1 - (1 - self.wB1) / p1) * (1 - (1 - self.wB2))
 
+    def demand_A(p1, p2=1, w1A=0.8, w2A=0.3, alpha=1/3):
+        # Demand function for consumer A
+        x1A_optimal = alpha * (p1 * w1A + p2 * w2A) / p1
+        x2A_optimal = (1 - alpha) * p1 * w1A + p2 * w2A
+        return x1A_optimal, x2A_optimal
+
     # We define the objective function
     def maximize_A_utility(self, p1):
         return -self.utility_A(p1)  # Negative sign because we are maximizing
