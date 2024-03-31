@@ -1,7 +1,7 @@
 # \[Sheng og Anton\]
 
 **Group members:**
-- Sheng Ye Michael Chen (nsr708), Class 
+- Sheng Ye Michael Chen (nsr708), Class 6
 - Anton Meier Ebsen Jørgensen (lpx972), Class 1
 
 
