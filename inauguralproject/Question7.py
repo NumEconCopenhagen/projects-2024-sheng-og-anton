@@ -1,28 +1,34 @@
-# Exercise 7
-# 1. First we set a seed, so that we can get the same pseduo-random numbers for the endowments everytime we run the code.
-np.random.seed(69)
+import numpy as np
+import matplotlib.pyplot as plt
 
-# 2. Now we need to set the pseduo-random number of elements (50) in the set of endowments W 
-n = 50
+# 1. We create the class 
+class TotalEndowments:
+    # a. We generate the seed and number of elements
+    def __init__(self, seed=69, n=50):
+        np.random.seed(seed)
+        self.n = n
 
-# 3. We generate psedou-random numbers for the endowments omegaA1 and omegaA2
-omegaA1 = np.random.uniform(0, 1, n)
-omegaA2 = np.random.uniform(0, 1, n)
+    # b. We plot the figure
+    def plot_endowments(self, wA1, wA2):
+        result = self.pareto_improvements()
 
-# 4. We now create the set of endowments based on our pseduo-random numbers
-W = np.column_stack((omegaA1, omegaA2))
+        # Plot the Edgeworth box with the endowments
+        fig, ax = plt.subplots(figsize=(8, 8))
+        ax.set_xlabel("$x_1^A$") # setting x-axis label
+        ax.set_ylabel("$x_2^A$") # setting y-axis label
+        # Setting the limits
+        ax.set_xlim(0, 1)
+        ax.set_ylim(0, 1)
 
-# 5. We can now begin plotting the total endowments
-plt.figure(figsize=(8, 6))
-plt.scatter(wA1, wA2, c='green')
-plt.title('The set of endowments with 50 elements')
+        # Plotting endowment points
+        ax.scatter(self.w_A1, self.w_A2, marker='s', color='black', label='Endowment A')
+        ax.scatter(self.w_B1, self.w_B2, marker='s', color='red', label='Endowment B')
 
-# a. We label the two axes in the diagram 
-plt.xlabel('ωA1')
-plt.ylabel('ωA2')
+        # Plotting Pareto improvements
+        for allocation in result:
+            ax.scatter(allocation[0], allocation[1], color='green') 
 
-# b. We add grids to the plot
-plt.grid(True)
+        ax.legend() # adding legend
+        plt.show() # display the plot
 
-# c. We show the plot
-plt.show()
+    
