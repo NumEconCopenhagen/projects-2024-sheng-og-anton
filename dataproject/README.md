@@ -2,7 +2,7 @@
 
 Our project is titled **EXCHANGE RATE DYNAMICS: THE RELATIONSHIP BETWEEN DANISH INFLATION AND RELATIVE EXCHANGE RATES**, and it is about how danish inflation correlates with important exchange rates.
 
-The **results** of the project can be seen from running [dataproject.ipynb](dataproject.ipynb).
+The **results** of this data project can be seen from running the notebook: [dataproject.ipynb](dataproject.ipynb).
 
 We apply the **following datasets** to answer the research question:
 
