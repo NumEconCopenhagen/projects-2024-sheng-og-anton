@@ -1,4 +1,4 @@
-# [\sheng og anton\]
+# \[sheng og anton\]
 
 **Group members:**
 - Sheng Ye Michael Chen (nsr708), Exercise Class 6
