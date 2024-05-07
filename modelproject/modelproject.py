@@ -112,9 +112,127 @@ class RealBusinessCycleModel(object):
         return (
             -np.log(np.exp(next_period_log_labour) + np.exp(next_period_log_leisure))
         )
+        
 
 
 class NumericalSolution(RealBusinessCycleModel):
+    def steady_state_numeric(self):
+            # Setup starting parameters
+            start_log_variable = [0.5] * self.k_variables
+
+            # Setup the function the evaluate
+            root_evaluated_variables = lambda log_variable: self.root_evaluated_variables(log_variable, log_variable)
+
+            # Apply the root-finding algorithm
+            solution = optimize.root(root_evaluated_variables, start_log_variable)
+            
+            return np.exp(solution.x)
+    
+
+#Replacing production function with CES function
+
+
+# Define the RBC_CES class
+class RBC_CES(object):
+    def __init__(self, params=None):
+        self.k_params = 5
+        self.k_variables = 6
+        if params is not None:
+            self.update(params)
+    
+    def update(self, params):
+        self.discount_rate = params[0]
+        self.disutility_from_labour = params[1]
+        self.depreciation_rate = params[2]
+        self.capital_share = params[3]
+        self.technology = params[4]
+        self.rho = params[5]
+        
+    def root_evaluated_variables(self, next_period_log_variables, this_period_log_variables):
+        (next_period_log_output, next_period_log_consumption, next_period_log_investment,
+         next_period_log_labour, next_period_log_leisure, next_period_log_capital) = next_period_log_variables
+        
+        (this_period_log_output, this_period_log_consumption, this_period_log_investment, this_period_log_labour,
+         this_period_log_leisure, this_period_log_capital) = this_period_log_variables
+        
+        return np.r_[
+            self.log_first_order_condition(
+                next_period_log_consumption, next_period_log_labour,
+                next_period_log_capital
+            ),
+            self.log_euler_equation(
+                next_period_log_consumption, next_period_log_labour,
+                next_period_log_capital, next_period_log_consumption
+            ),
+            self.log_ces_function(
+                next_period_log_output, next_period_log_labour, next_period_log_capital
+            ),
+            self.log_resource_constraint(
+                next_period_log_output, next_period_log_consumption,
+                next_period_log_investment
+            ),
+            self.log_capital_accumulation(
+                next_period_log_capital, next_period_log_investment, next_period_log_capital
+            ),
+            self.log_labour_leisure_constraint(
+                next_period_log_labour, next_period_log_leisure
+            ),
+        ]
+    
+    def log_first_order_condition(self, next_period_log_consumption, next_period_log_labour,
+                       next_period_log_capital):
+        return (
+            np.log(self.disutility_from_labour) +
+            next_period_log_consumption -
+            np.log(1 - self.capital_share) -
+            self.technology -
+            self.capital_share * (next_period_log_capital - next_period_log_labour)
+        )
+        
+    def log_euler_equation(self, next_period_log_consumption, next_period_log_labour,
+                            next_period_log_capital, this_period_log_consumption):
+        return (
+            -this_period_log_consumption -
+            np.log(self.discount_rate) +
+            next_period_log_consumption -
+            np.log(
+                (self.capital_share * 
+                 np.exp((1 - self.capital_share) * next_period_log_labour) /
+                 np.exp((1 - self.capital_share) * next_period_log_capital)) +
+                (1 - self.depreciation_rate)
+            )
+        )
+        
+    def log_ces_function(self, next_period_log_output, next_period_log_labour, next_period_log_capital):
+        if self.rho == 0:
+        # Cobb-Douglas production function
+         return next_period_log_output - (self.capital_share * next_period_log_capital + (1 - self.capital_share) * next_period_log_labour)
+        else:
+        # CES production function
+         return next_period_log_output - ((self.capital_share * next_period_log_capital ** self.rho +
+                                          (1 - self.capital_share) * next_period_log_labour ** self.rho) ** (1 / self.rho))
+
+        
+    def log_resource_constraint(self, next_period_log_output, next_period_log_consumption,
+                                          next_period_log_investment):
+        return (
+            next_period_log_output -
+            np.log(np.exp(next_period_log_consumption) + np.exp(next_period_log_investment))
+        )
+    
+    def log_capital_accumulation(self, next_period_log_capital, this_period_log_investment, this_period_log_capital):
+        return (
+            next_period_log_capital -
+            np.log(np.exp(this_period_log_investment) + (1 - self.depreciation_rate) * np.exp(this_period_log_capital))
+        )
+    
+    def log_labour_leisure_constraint(self, next_period_log_labour, next_period_log_leisure):
+        return (
+            -np.log(np.exp(next_period_log_labour) + np.exp(next_period_log_leisure))
+        )
+    
+#Numerical solution using the CES function
+class NumericalSolution(RBC_CES):
     def steady_state_numeric(self):
             # Setup starting parameters
             start_log_variable = [0.5] * self.k_variables
