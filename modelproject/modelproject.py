@@ -34,7 +34,7 @@ class RealBusinessCycleModel(object):
         # Fifth element is technology
         self.technology = params[4]
         
-    def logged_variables(self, next_period_log_variables, this_period_log_variables):
+    def root_evaluated_variables(self, next_period_log_variables, this_period_log_variables):
         (next_period_log_output, next_period_log_consumption, next_period_log_investment,
          next_period_log_labour, next_period_log_leisure, next_period_log_capital) = next_period_log_variables
         
@@ -53,14 +53,14 @@ class RealBusinessCycleModel(object):
             self.log_production_function(
                 next_period_log_output, next_period_log_labour, next_period_log_capital
             ),
-            self.log_aggregate_resource_constraint(
+            self.log_resource_constraint(
                 next_period_log_output, next_period_log_consumption,
                 next_period_log_investment
             ),
             self.log_capital_accumulation(
                 next_period_log_capital, next_period_log_investment, next_period_log_capital
             ),
-            self.log_labor_leisure_constraint(
+            self.log_labour_leisure_constraint(
                 next_period_log_labour, next_period_log_leisure
             ),
         ]
@@ -72,11 +72,11 @@ class RealBusinessCycleModel(object):
             next_period_log_consumption -
             np.log(1 - self.capital_share) -
             self.technology -
-            self.capital_share * (log_lead_capital - log_lead_labor)
+            self.capital_share * (next_period_log_capital - next_period_log_labour)
         )
         
     def log_euler_equation(self, next_period_log_consumption, next_period_log_labour,
-                            next_period_log_capital, next_period_log_consumption):
+                            next_period_log_capital, this_period_log_consumption):
         return (
             -this_period_log_consumption -
             np.log(self.discount_rate) +
@@ -95,7 +95,7 @@ class RealBusinessCycleModel(object):
             (1 - self.capital_share) * next_period_log_labour
         )
         
-    def log_aggregate_resource_constraint(self, next_period_log_output, next_period_log_consumption,
+    def log_resource_constraint(self, next_period_log_output, next_period_log_consumption,
                                           next_period_log_investment):
         return (
             next_period_log_output -
@@ -104,23 +104,25 @@ class RealBusinessCycleModel(object):
     
     def log_capital_accumulation(self, next_period_log_capital, this_period_log_investment, this_period_log_capital):
         return (
-            log_lead_capital -
+            next_period_log_capital -
             np.log(np.exp(this_period_log_investment) + (1 - self.depreciation_rate) * np.exp(this_period_log_capital))
         )
     
-    def log_labour_leisure_constraint(self, next_period_log_labour, log_lead_leisure):
+    def log_labour_leisure_constraint(self, next_period_log_labour, next_period_log_leisure):
         return (
             -np.log(np.exp(next_period_log_labour) + np.exp(next_period_log_leisure))
         )
+
+
 class NumericalSolution(RealBusinessCycleModel):
     def steady_state_numeric(self):
             # Setup starting parameters
-            log_start_vars = [0.5] * self.k_variables  # very arbitrary
+            start_log_variable = [0.5] * self.k_variables
 
             # Setup the function the evaluate
-            eval_logged = lambda log_vars: self.eval_logged(log_vars, log_vars)
+            root_evaluated_variables = lambda log_variable: self.root_evaluated_variables(log_variable, log_variable)
 
             # Apply the root-finding algorithm
-            result = optimize.root(eval_logged, log_start_vars)
+            solution = optimize.root(root_evaluated_variables, start_log_variable)
             
-            return np.exp(result.x)
+            return np.exp(solution.x)
