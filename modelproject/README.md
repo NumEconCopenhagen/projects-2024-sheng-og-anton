@@ -1,6 +1,6 @@
 # Model analysis project
 
-Our project is titled **THE REAL BUSINESS CYCLE MODEL** and is about the real business cycle model (RBC).
+Our project is titled **THE REAL BUSINESS CYCLE MODEL** and is about the Real Business Cycle model (RBC).
 
 The **results** of the model project can be seen from running [modelproject.ipynb](modelproject.ipynb).
 
