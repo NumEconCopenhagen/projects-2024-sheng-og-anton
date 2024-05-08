@@ -156,7 +156,7 @@ class SteadyStatePlot:
         # i. Sets the size of the figure
         plt.figure(figsize=(10, 6))
         # ii. Sets the bar diagram with the variables and steady state values as the input
-        plt.bar(self.variables, self.steady_state_values['Value'], color='skyblue')
+        plt.bar(self.variables, self.steady_state_values['Steady state value'], color='skyblue')
         # iii. 
         plt.title('Steady state')
         # iv. 
@@ -267,14 +267,17 @@ class RBC_CES(object):
         #
         if self.rho == 0:
         # Cobb-Douglas production function
-         return next_period_log_output - (self.capital_share * next_period_log_capital + (1 - self.capital_share) * next_period_log_labour)
+         return ( next_period_log_output - (self.capital_share * next_period_log_capital + (1 - self.capital_share) 
+         * next_period_log_labour)
+         )
         #
         else:
         # CES production function
-         return next_period_log_output - np.log(
+         return ( next_period_log_output - np.log(
             (self.capital_share * np.exp(self.rho * next_period_log_capital) +
             (1 - self.capital_share) * np.exp(self.rho * next_period_log_labour)) ** (1 / self.rho)
         )
+         )
 
     # 
     def log_resource_constraint(self, next_period_log_output, next_period_log_consumption,
@@ -300,8 +303,8 @@ class RBC_CES(object):
             -np.log(np.exp(next_period_log_labour) + np.exp(next_period_log_leisure))
         )
 
-
-class NumericalSolution(RealBusinessCycleModel):
+# Numerical solution using the CES function
+class NumericalSolutionCES(RBC_CES):
     def steady_state_numeric(self):
             # Setup starting parameters
             start_log_variable = [0.5] * self.k_variables
