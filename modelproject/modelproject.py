@@ -97,10 +97,9 @@ class RealBusinessCycleModel(object):
     # e. Define the third equation in the RBC model, which is the Cobb-Douglass production function
     def log_production_function(self, next_period_log_output, next_period_log_labour, next_period_log_capital):
         # i. Returns the result from the equation for the logged production function below
-        return (
-            next_period_log_output - self.capital_share * next_period_log_capital -
-            (1 - self.capital_share) * next_period_log_labour
-        )
+        return ( next_period_log_output - (self.capital_share * next_period_log_capital + (1 - self.capital_share) 
+         * next_period_log_labour)
+         )
     
     # f. Define the fourth equation in the RBC model, which is the resource constraint for the economy
     def log_resource_constraint(self, next_period_log_output, next_period_log_consumption,
@@ -170,33 +169,34 @@ class SteadyStatePlot:
         # viii. 
         plt.show()
 
-# 6. Replacing production function with CES function
+# 6. Replacing production function with CES function and adding parameter rho
 # Define the RBC_CES class
 class RBC_CES(object):
     # 
     def __init__(self, params=None):
-        #
+        # a. We define the number of parameters
         self.k_params = 5
-        #
+        # b. Define the number of variables
         self.k_variables = 6
-        #
+        # c. Checks if the parameter is equal to none
         if params is not None:
-            #
+            # i. Update the instance with values from params
             self.update(params)
     
     #
+    # a. Create a new class that updates the elements in the tuple
     def update(self, params):
-        #
+        # i. The first element in the tuple should be the discount rate, beta
         self.discount_rate = params[0]
-        #
+        # ii. The second element is the disutility from labour, psi
         self.disutility_from_labour = params[1]
-        #
+        # iii. The third element is the depreciation rate, delta
         self.depreciation_rate = params[2]
-        #
+        # iv. The fourth element is the capital share, alpha
         self.capital_share = params[3]
-        #
+        # v. The fifth element is technology, A
         self.technology = params[4]
-        #
+        # vi. The sixth element is the substitution parameter, rho
         self.rho = params[5]
     
     # 
@@ -264,14 +264,6 @@ class RBC_CES(object):
     
     #
     def log_ces_function(self, next_period_log_output, next_period_log_labour, next_period_log_capital):
-        #
-        if self.rho == 0:
-        # Cobb-Douglas production function
-         return ( next_period_log_output - (self.capital_share * next_period_log_capital + (1 - self.capital_share) 
-         * next_period_log_labour)
-         )
-        #
-        else:
         # CES production function
          return ( next_period_log_output - np.log(
             (self.capital_share * np.exp(self.rho * next_period_log_capital) +
