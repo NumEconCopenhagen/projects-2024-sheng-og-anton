@@ -54,6 +54,8 @@ class EdgeworthBoxClass:
     def plot_edgeworth_box(self):
         result = self.pareto_improvements()
 
+        result = np.array(result)
+
         # Plot the Edgeworth box with Pareto improvements
         fig, ax = plt.subplots(figsize=(8, 8))
         ax.set_xlabel("$x_1^A$") # setting x-axis label
@@ -63,21 +65,14 @@ class EdgeworthBoxClass:
         ax.set_ylim(0, 1)
 
         # Plotting endowment points
-        ax.scatter(self.w_A1, self.w_A2, marker='s', color='black', label='Endowment A')
-        ax.scatter(self.w_B1, self.w_B2, marker='s', color='red', label='Endowment B')
-
+        ax.scatter(self.w_A1, self.w_A2, marker='s', color='black', label='Endowment')
+    
         # Plotting Pareto improvements
-        for allocation in result:
-            ax.scatter(allocation[0], allocation[1], color='green') 
+        ax.scatter(result[:, 0], result[:, 1], color='green', label='Pareto Improvements') 
 
         ax.legend() # adding legend
         plt.show() # display the plot
 
-# Create an instance of EdgeworthBox
-box = EdgeworthBoxClass()
-
-# Plot the Edgeworth box with Pareto improvements for set C
-box.plot_edgeworth_box()
 
 #Question 2 
 from types import SimpleNamespace
@@ -119,18 +114,12 @@ class ErrorMarketClass:
         for p1 in self.rho1:
             x1A_star, x2A_star = self.demand_A(p1)
             x1B_star, x2B_star = self.demand_B(p1)
-            eps1 = x1A_star - par.w1A + x1B_star - (1 - par.w1A)
-            eps2 = x2A_star - par.w2A + x2B_star - (1 - par.w2A)
+            eps1 = round(x1A_star - par.w1A + x1B_star - (1 - par.w1A),2)
+            eps2 = round(x2A_star - par.w2A + x2B_star - (1 - par.w2A),2)
             errors.append((eps1, eps2))
 
         return errors
 
-errormarket = ErrorMarketClass()
-result = errormarket.check_market_clearing()
-
-print("Errors in the market clearing condition:")
-for eps1, eps2 in result:
-    print(f"Error 1: {eps1}, Error 2: {eps2}")
 
 
 #Question 3
@@ -385,10 +374,12 @@ class TotalEndowments:
     def __init__(self, seed=69, n=50):
         np.random.seed(seed)
         self.n = n
+        
+        self.edgeworth = EdgeworthBoxClass
 
     # b. We plot the figure
     def plot_endowments(self, wA1, wA2):
-        result = self.pareto_improvements()
+        result = self.edgeworth.pareto_improvements()
 
         # Plot the Edgeworth box with the endowments
         fig, ax = plt.subplots(figsize=(8, 8))
