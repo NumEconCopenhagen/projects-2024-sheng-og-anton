@@ -6,7 +6,6 @@
 - Anton Meier Ebsen Jørgensen (lpx972), Exercise Class 1
 
 ## Content
----
 This repository contains the following
 
 **Inaugural project**
