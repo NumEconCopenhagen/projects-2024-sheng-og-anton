@@ -7,17 +7,14 @@ from scipy.optimize import minimize
 
 
 #Question 1
-class EdgeworthBoxClass:
-    def __init__(self):
-        # Initial endowment
-        self.w_A1 = 0.8
-        self.w_A2 = 0.3
-        self.w_B1 = 1 - self.w_A1
-        self.w_B2 = 1 - self.w_A2
 
-        # Utility function parameters
-        self.alpha = 1/3
-        self.beta = 2/3
+class EdgeworthBoxClass:
+    def __init__(self, alpha, beta, endowment_A):
+        # Initial endowment
+        self.alpha = alpha
+        self.beta = beta
+        self.endowment_A = endowment_A
+        self.endowment_B = [1 - e for e in endowment_A]
 
         # Number of allocations
         self.N = 75
@@ -29,6 +26,18 @@ class EdgeworthBoxClass:
     def u_B(self, x_B1, x_B2):
         # Define the utility function for Consumer B
         return x_B1**self.beta * x_B2**(1 - self.beta)
+
+    def demand_A_x1(self, p1, p2):
+        return self.alpha * (p1*self.endowment_A[0] + p2*self.endowment_A[1]) / p1
+
+    def demand_A_x2(self, p1, p2):
+        return (1 - self.alpha) * (p1*self.endowment_A[0] + p2*self.endowment_A[1]) / p2
+
+    def demand_B_x1(self, p1, p2):
+        return self.beta * (p1*self.endowment_B[0] + p2*self.endowment_B[1]) / p1
+
+    def demand_B_x2(self, p1, p2):
+        return (1 - self.beta) * (p1*self.endowment_B[0] + p2*self.endowment_B[1]) / p2
 
     def pareto_improvements(self):
         pareto_improvements = []
@@ -43,8 +52,8 @@ class EdgeworthBoxClass:
                 x_B2 = 1 - x_A2
 
                 # Checking the Pareto improvement relative to the endowment
-                if self.u_A(x_A1, x_A2) >= self.u_A(self.w_A1, self.w_A2) and \
-                        self.u_B(x_B1, x_B2) >= self.u_B(self.w_B1, self.w_B2) and \
+                if self.u_A(x_A1, x_A2) >= self.u_A(self.endowment_A[0], self.endowment_A[1]) and \
+                        self.u_B(x_B1, x_B2) >= self.u_B(self.endowment_B[0], self.endowment_B[1]) and \
                         x_B1 == 1 - x_A1 and x_B2 == 1 - x_A2:
                     # Storing combination of x_A1 and x_A2.
                     pareto_improvements.append((x_A1, x_A2))
@@ -58,20 +67,30 @@ class EdgeworthBoxClass:
 
         # Plot the Edgeworth box with Pareto improvements
         fig, ax = plt.subplots(figsize=(8, 8))
-        ax.set_xlabel("$x_1^A$") # setting x-axis label
-        ax.set_ylabel("$x_2^A$") # setting y-axis label
+        ax.set_xlabel("$x_1^A$")  # setting x-axis label
+        ax.set_ylabel("$x_2^A$")  # setting y-axis label
         # Setting the limits
         ax.set_xlim(0, 1)
         ax.set_ylim(0, 1)
 
         # Plotting endowment points
-        ax.scatter(self.w_A1, self.w_A2, marker='s', color='black', label='Endowment')
+        ax.scatter(self.endowment_A[0], self.endowment_A[1], marker='s', color='black', label='Endowment')
     
         # Plotting Pareto improvements
         ax.scatter(result[:, 0], result[:, 1], color='green', label='Pareto Improvements') 
 
-        ax.legend() # adding legend
-        plt.show() # display the plot
+        ax.legend()  # adding legend
+        plt.show()  # display the plot
+
+    # Market clearing price
+    def market_clearing_price(self):
+        def excess_demand_x1(p1):
+            aggregate_demand_x1 = self.demand_A_x1(p1, 1) + self.demand_B_x1(p1, 1)
+            total_endowment_x1 = self.endowment_A[0] + self.endowment_B[0]
+            return aggregate_demand_x1 - total_endowment_x1
+
+        p1_clearing = optimize.brentq(excess_demand_x1, 0.01, 10)
+        return p1_clearing
 
 
 #Question 2 
@@ -172,7 +191,7 @@ class MarketClearPriceClass:
             eps1, eps2 = self.market_clearing_condition(prices, endowments, alphas, betas)
             total_squared_errors += eps1 ** 2 + eps2 ** 2  # Accumulate squared errors
         return total_squared_errors
-
+    
 #Question 4A
 class UtilityOptimization:
     def __init__(self, wA1, wA2, N, alpha, p2):
