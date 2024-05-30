@@ -124,6 +124,8 @@ class ErrorMarketClass:
         x2B_star = (1 - self.par.beta) * (p1 * (1 - self.par.w1A) + self.par.p2 * (1 - self.par.w2A)) / self.par.p2
         return x1B_star, x2B_star
 
+
+
     def check_market_clearing(self):
         par = self.par
         self.rho1 = [0.5 + 2 * i / self.N for i in range(self.N + 1)]
@@ -152,19 +154,17 @@ class MarketClearPriceClass:
         # Utility function for consumer B
         return x1B ** beta * x2B ** (1 - beta)
 
-    def demand_A(self, p1, w1A, w2A, alpha):  
-        # Demand function or consumer A
-        p2 = 1
-        x1A_star = alpha * p1 * w1A + p2 * w2A
-        x2A_star = (1 - alpha) * p1 * w1A + p2 * w2A
-        return x1A_star, x2A_star
+    def demand_A(self, p1, p2=1, w1A=0.8, w2A=0.3, alpha=1/3):
+        # Demand function for consumer A
+        x1A_optimal = alpha * (p1 * w1A + p2 * w2A) / p1
+        x2A_optimal = (1 - alpha) * p1 * w1A + p2 * w2A
+        return x1A_optimal, x2A_optimal
 
-    def demand_B(self, p1, w1A, w2A, beta):  
+    def demand_B(self, p1, p2=1, w1A=0.8, w2A=0.3, beta=2/3):
         # Demand function for consumer B
-        p2 = 1
-        x1B_star = beta * p1 * (1 - w1A) + p2 * (1 - w2A)
-        x2B_star = (1 - beta) * p1 * (1 - w1A) + p2 * (1 - w2A)
-        return x1B_star, x2B_star
+        x1B_optimal = beta * p1 * (1 - w1A) + p2 * (1 - w2A)
+        x2B_optimal = (1 - beta) * p1 * (1 - w1A) + p2 * (1 - w2A)
+        return x1B_optimal, x2B_optimal
 
     def market_clearing_condition(self, prices, endowments, alphas, betas):  
         # Market clearing condition based on demand and endowments
@@ -206,6 +206,13 @@ class OptimizationWithNoUpperBound:
         x1A_optimal = alpha * (p1 * w1A + p2 * w2A) / p1
         x2A_optimal = (1 - alpha) * p1 * w1A + p2 * w2A
         return x1A_optimal, x2A_optimal
+    
+    def demand_B(self, p1, p2=1, w1A=0.8, w2A=0.3, beta=2/3):
+        # Demand function for consumer B
+        x1B_optimal = beta * p1 * (1 - w1A) + p2 * (1 - w2A)
+        x2B_optimal = (1 - beta) * p1 * (1 - w1A) + p2 * (1 - w2A)
+        return x1B_optimal, x2B_optimal
+    
     # We maximize utility for consumer A
     def maximize_A_utility(self, price, alpha=1/3, w1B=0.2, w2B=0.7):
         p1 = price[0]  
