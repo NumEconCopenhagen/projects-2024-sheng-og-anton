@@ -106,9 +106,15 @@ class EdgeworthBoxClass:
 
         #
         ax.set_xlabel("$x_1^A$")  # setting x-axis label
-        
+       
         #
         ax.set_ylabel("$x_2^A$")  # setting y-axis label
+        temp = ax.twinx()
+        temp.set_ylabel("$x_2^B$")
+        ax = temp.twiny()
+        ax.set_xlabel("$x_1^B$")
+        ax.invert_xaxis()
+        ax.invert_yaxis()
         
         # Setting the limits
         ax.set_xlim(0, 1)
