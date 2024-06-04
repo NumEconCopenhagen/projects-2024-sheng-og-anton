@@ -3,7 +3,7 @@
 **Group members:**
 ---
 - Sheng Ye Michael Chen (nsr708), Exercise Class 6
-- Anton Meier Ebsen Jørgensen (lpx972), Exercise Class 1
+- [Anton Meier Ebsen Jørgensen (lpx972)](https://github.com/AntonEbsen), Exercise Class 1
 
 ## Content
 This repository contains the following
