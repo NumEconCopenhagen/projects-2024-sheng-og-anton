@@ -10,6 +10,7 @@ This repository contains the following
 
 **Inaugural project**
 ---
+Folder: 'inauguralproject'
 We solve the Exchange Economy, where we find equilibria.
 
 **Data project** 
