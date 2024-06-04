@@ -12,10 +12,14 @@ This repository contains the following
 ---
 We solve the Exchange Economy, where we find equilibria.
 
-**Data project** 
+**[Data Project](./dataproject)** 
 ---
 We fetch data from **Danmarks Statistik (Statistikbanken)** on **Exchange rates (EUR, USD, CNY) in 100 DKK** and show that danish inflation rate puts a pressure on the central currency parity.
 
-**Model project**
+**[Model Project](./modelproject)**
 ---
 We model the simple Real Business Cycle Model (RBC-model), where technology, A, is exogenous and set to 1.
+
+**[Exam Project](./examproject)**
+---
+It is about...
