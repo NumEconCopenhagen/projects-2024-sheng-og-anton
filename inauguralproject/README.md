@@ -7,11 +7,11 @@
 
 **Introduction**
 ---
--	This project is about an Exchange economy, and it discovers and discusses different Walras equilibria based on various assumptions. 
+-	This project is about an Exchange economy, and it discovers and discusses different Walras equilibria based on various assumptions on the objective function and ressource constraints. 
 
 **Purpose**
 ---
-- The purpose of this Inaugural Project is to show that we can *structure* a code project on GitHub with the use of one notebook (inauguralproject.pynb), py-files, and good documentation.
+- The purpose of this Inaugural Project is to show that we can *structure* a code project on GitHub with the use of one notebook ([inauguralproject.ipynb](inauguralproject.ipynb)), py-file, and good documentation.
 
 **The structure of the assignment**
 ---
@@ -40,5 +40,5 @@ The **results** of the project can be seen from running the notebook: [inaugural
 Apart from a standard Anaconda Python 3 installation, this inagural project requires these following packages to run the notebook:
 - **Matplotlib.pyplot**: We use the *Matplotlib.pyplot*-package to plot some of the results in graphs.
 - **Scipy**: We use the *Scipy*-package to optimize some of the objective functions in the project (minimize and minimize scalar).
-- **inaguralproject.py**: We use the inaguralproject.py-file to store the classes and the code.
+- **inaguralproject.py**: We use the *inaguralproject.py*-file to store the classes and the code.
 - **NumPy**: We use the *NumPy*-package to store endowments in numpy arrays and generate pseduo-random numbers.
