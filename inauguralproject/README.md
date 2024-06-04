@@ -2,8 +2,8 @@
 
 **Group members**
 ---
-- Sheng Ye Michael Chen (nsr708)
-- Anton Meier Ebsen Jørgensen (lpx972)
+- [Sheng Ye Michael Chen (nsr708)](https://github.com/nsr708), Exercise class 6
+- [Anton Meier Ebsen Jørgensen (lpx972)](https://github.com/AntonEbsen), Exercise class 1
 
 **Introduction**
 ---
@@ -17,7 +17,7 @@
 ---
 Our Inaugural Project is structured as follows:
 1.	At the start, we import the modules and classes, where we define the parameters, utility functions and demand functions. 
-2.	**Question 1**: We illustrate the set of pareto improvements in the Edgeworth box.
+2.	**[Question 1](inauguralproject.ipynb#question1)**: We illustrate the set of pareto improvements in the Edgeworth box.
 3.	**Question 2**: We calculate the error in the market clearing conditions.
 4.	**Question 3**: We find the market clearing price to be approximately 0.93.
 5.	**Question 4**: For question 4, we assume that consumer A choose her price to maximize her own utility.
