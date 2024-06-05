@@ -16,20 +16,21 @@ Our project is titled **EXCHANGE RATE DYNAMICS: THE RELATIONSHIP BETWEEN DANISH 
 
 We apply the **following datasets** to answer our research question:
 
-1. **[Data on Exhange Rates](dataVA.xlsx)**: dataVA.xlsx (*Danmarks Statistik, Statistikbanken: DNVALA, Link: https://www.statistikbanken.dk/statbank5a/default.asp?w=1440, 03/04-2024*)
-2. **Data on Danish Inflation**: Inflation.csv (*Danmarks Statistik, Statistikbanken: PRIS8, Link: https://www.statistikbanken.dk/statbank5a/default.asp?w=1440, 04/05-2024*)
-3. **Data on Eurozone Inflation**: 
+1. **[Data on Exhange Rates](dataVA.xlsx)**: dataVA.xlsx (*Danmarks Statistik, Statistikbanken: DNVALA*, Link: https://www.statistikbanken.dk/statbank5a/default.asp?w=1440, Received 03/04-2024)
+2. **[Data on Danish Inflation](Danish_Inflation.csv)**: Danish Inflation.csv (*Danmarks Statistik, Statistikbanken: PRIS8*, Link: https://www.statistikbanken.dk/statbank5a/default.asp?w=1440, Received 04/05-2024)
+3. **[Data on Eurozone Inflation](Eurozone_Inflation.csv)**: Eurozone_Inflation.csv (*European Central Bank, ECB Data Portal* Link: https://data.ecb.europa.eu/publications/macroeconomic-and-sectoral-statistics/3030627, Received 05/06-2024)
 
 **Structure of the notebook:**
 ---
 
 We *structure* our data project in this following way:
-- **Introduction:** We mention our research question of interest, we motivate it, and we mention our results. 
-- **Import of packages:** We start by importing the packages used in the notebook (listed under Dependencies).  
-- **Import of the first dataset:** We import the first dataset using an API.
-- **Merging the two data sets:** We merge the two datasets.
-- **Descriptive statistics:** We make descriptive statistics on the merged raw data.
-- **Conclusion:** We conclude our findings in the data project.
+- **[Introduction](dataproject.ipynb#introduction):** We mention our research question of interest, we motivate it, and we mention our results. 
+- **[Import of packages](dataproject.ipynb#imports):** We start by importing the packages used in the notebook (listed under Dependencies).  
+- **[Import of the first dataset](dataproject.ipynb#firstimport):** We import the first dataset using an API.
+- **[Import of the second dataset](dataproject.ipynb#secondimport):** We import the second dataset using a csv-file and Pandas.
+- **[Merging of the two datasets](dataproject.ipynb#merge):** We merge the two datasets using an outer merge.
+- **[Descriptive statistics](dataproject.ipynb#descriptivestatistics):** We make descriptive statistics on the merged raw data.
+- **[Conclusion](dataproject.ipynb#conclusion):** We conclude our findings in the data project.
 
 **Instructions:**
 ---
@@ -44,4 +45,3 @@ Apart from a standard Anaconda Python 3 installation, this data project requires
 - **Matplotlib.pyplot**: We use the Matplotlib.pyplot-package to make graphs of the raw data.
 - **Pandas**: We use the Pandas-package for cleaning, storing, and processing the data. 
 - **dataproject.py**: We use the dataproject.py-file to have the classes for our codes. This makes the notebook more neat.
-   
