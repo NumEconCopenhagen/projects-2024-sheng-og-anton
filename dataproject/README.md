@@ -3,8 +3,8 @@
 **Group members:**
 ---
 
-- Sheng Ye Michael Chen (nsr708)
-- Anton Meier Ebsen Jørgensen (lpx972)
+- [Sheng Ye Michael Chen (nsr708)](https://github.com/nsr708), Exercise Class 6
+- [Anton Meier Ebsen Jørgensen (lpx972)](https://github.com/AntonEbsen), Exercise Class 1
 
 **Introduction:**
 ---
@@ -16,8 +16,9 @@ Our project is titled **EXCHANGE RATE DYNAMICS: THE RELATIONSHIP BETWEEN DANISH 
 
 We apply the **following datasets** to answer our research question:
 
-1. **Data on exhange rates**: dataVA.xlsx (*Danmarks Statistik, Statistikbanken: DNVALA, Link: https://www.statistikbanken.dk/statbank5a/default.asp?w=1440, 03/04-2024*) 
-2. **Data on Danish inflation**: Inflation.csv (*Danmarks Statistik, Statistikbanken: PRIS8, Link: https://www.statistikbanken.dk/statbank5a/default.asp?w=1440, 04/05-2024*)
+1. **[Data on Exhange Rates](dataVA.xlsx)**: dataVA.xlsx (*Danmarks Statistik, Statistikbanken: DNVALA, Link: https://www.statistikbanken.dk/statbank5a/default.asp?w=1440, 03/04-2024*)
+2. **Data on Danish Inflation**: Inflation.csv (*Danmarks Statistik, Statistikbanken: PRIS8, Link: https://www.statistikbanken.dk/statbank5a/default.asp?w=1440, 04/05-2024*)
+3. **Data on Eurozone Inflation**: 
 
 **Structure of the notebook:**
 ---
