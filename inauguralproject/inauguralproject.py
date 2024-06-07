@@ -1,15 +1,15 @@
 # 1. Import relevant packages
 # a. We use matplotlib.pyplot to show nice graphs 
 import matplotlib.pyplot as plt
-# b. 
+# b. We use the numpy-package to store the pairs of random endowments 
 import numpy as np
 # c. 
 from types import SimpleNamespace
-# d.
+# d. We import the scipy-package which is used for optimization
 import scipy
-# e. 
+# e. We import the optimize module to optimize 
 from scipy import optimize 
-# f.
+# f. 
 from scipy.optimize import minimize
 
 # 2. Defines a class that is used to answer most of the questions
@@ -97,7 +97,6 @@ class EdgeworthBoxClass:
         return pareto_improvements
     
     # i. Define a function that plots the Edgeworth Box
-    
     def plot_edgeworth_box(self):
         result = self.pareto_improvements()
         result = np.array(result)
@@ -160,13 +159,13 @@ class EdgeworthBoxClass:
             utilitarian_objective_function, initial_guess, method='SLSQP',
             bounds = bounds)
         
-        # v. 
+        # v. Set the utility for consumer A equal to the utility after the maximization problem has been solved
         utility_for_A = self.u_A(solution_to_question_6a.x[0],solution_to_question_6a.x[1])
         
-        # vi.
+        # vi. Set the utility for consumer B equal to 1 minus the optimal allocation for consumer A 
         utility_for_B = self.u_B(1-solution_to_question_6a.x[0],1-solution_to_question_6a.x[1])
         
-        # vii. 
+        # vii. Defines aggregate utility as utility for consumer A plus utility for consumer B
         aggregate_utility = utility_for_A + utility_for_B
 
         # viii. Print statement for the optimal allocation for consumer A with a utilitarian social planner
@@ -232,19 +231,19 @@ class ErrorMarketClass:
         # iii. 
         par.beta = 2/3
         
-        # iv. Endowments
+        # iv. Set the value of endowment for good 1 for consumer A
         par.w1A = 0.8
-        # v. 
+        # v. Set the value of endowment for good 2 for consumer A
         par.w2A = 0.3
-        # vi. 
+        # vi. Set the price of the second good to be numeraire
         par.p2 = 1
         
-        # vii.
+        # vii. Set the number of allocations
         self.N = 75
 
-    # b. 
+    # b. Define the utility function for consumer A
     def utility_A(self, x1A, x2A):
-        #
+        # i. Return 
         return x1A ** self.par.alpha * x2A ** (1 - self.par.alpha)
 
     # c.
