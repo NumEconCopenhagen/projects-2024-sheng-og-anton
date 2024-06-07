@@ -13,11 +13,11 @@ Our model project is titled **STEADY STATE IN THE REAL BUSINESS CYCLE MODEL** an
 
 **The structure of the project:**
 ---
-1. **[Conclusion](modelproject.ipynb#conclusion):**
-2. **[Conclusion](modelproject.ipynb#conclusion):**
-3. **[Conclusion](modelproject.ipynb#conclusion):**
-4. **[Conclusion](modelproject.ipynb#conclusion):**
-5. **[Conclusion](modelproject.ipynb#conclusion):**
+1. **[Introduction](modelproject.ipynb#conclusion):**
+2. **[Model description](modelproject.ipynb#conclusion):**
+3. **[Steady state equations](modelproject.ipynb#conclusion):**
+4. **[Numerical solution](modelproject.ipynb#conclusion):**
+5. **[Linear approximations](modelproject.ipynb#conclusion):**
 6. **[Conclusion](modelproject.ipynb#conclusion):**
 
 **Instructions:**
