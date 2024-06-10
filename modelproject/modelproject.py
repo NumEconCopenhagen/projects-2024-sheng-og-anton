@@ -361,14 +361,14 @@ class SteadyStatePlotCES:
     
     def simpleplot_ces(self):
         plt.figure(figsize=(10, 6))
-        plt.bar(self.variables, self.steady_state_values['Steady state value'], color='skyblue')  # Access 'value' column
+        plt.bar(self.variables, self.steady_state_values['value'], color='skyblue')  # Access 'value' column
         plt.title('Steady state values (CES)')
         plt.xlabel('Variables')
         plt.ylabel('Steady State values')
         plt.xticks(rotation=45)
         plt.grid(axis='y', linestyle='--')
         
-        max_value = max(self.steady_state_values['Steady state value'])
+        max_value = max(self.steady_state_values['value'])
         
         # Set the y-axis limit dynamically
         plt.ylim(0, max_value * 1.1)  # Adjust ylim to give some extra space
