@@ -1,6 +1,6 @@
 # 1. Import packages
 import numpy as np # Used to store the values in numpy array
-import pandas as pd # 
+import pandas as pd #
 from scipy import optimize # Used this to root maximize the steady state values
 from types import SimpleNamespace
 from scipy.optimize import fsolve
@@ -167,9 +167,16 @@ class SteadyStatePlot:
         plt.ylabel('Steady State values')
         # vi.
         plt.xticks(rotation=45)
+
+        plt.ylim(0, 1.4)  # Set y-axis limit to 1.4
         # vii. 
         plt.grid(axis='y', linestyle='--')
         # viii. 
+        max_value = max(self.steady_state_values['Steady state value'])
+        
+        # Set the y-axis limit dynamically
+        plt.ylim(0, max_value * 1.1)  # Adjust ylim to give some extra space
+        
         plt.show()
         
 # Define the Interactive Model class
@@ -332,6 +339,7 @@ class RBC_CES(object):
             -np.log(np.exp(next_period_log_labour) + np.exp(next_period_log_leisure))
         )
 
+
 # Numerical solution using the CES function
 class NumericalSolutionCES(RBC_CES):
     def steady_state_numeric(self):
@@ -345,3 +353,24 @@ class NumericalSolutionCES(RBC_CES):
             solution = optimize.root(root_evaluated_variables, start_log_variable)
             
             return np.exp(solution.x)
+    
+class SteadyStatePlotCES:
+    def __init__(self, variables, steady_state_values):
+        self.variables = variables
+        self.steady_state_values = steady_state_values
+    
+    def simpleplot_ces(self):
+        plt.figure(figsize=(10, 6))
+        plt.bar(self.variables, self.steady_state_values['Steady state value'], color='skyblue')  # Access 'value' column
+        plt.title('Steady state values (CES)')
+        plt.xlabel('Variables')
+        plt.ylabel('Steady State values')
+        plt.xticks(rotation=45)
+        plt.grid(axis='y', linestyle='--')
+        
+        max_value = max(self.steady_state_values['Steady state value'])
+        
+        # Set the y-axis limit dynamically
+        plt.ylim(0, max_value * 1.1)  # Adjust ylim to give some extra space
+        
+        plt.show()
