@@ -1,7 +1,10 @@
 # 1. Import packages
-import numpy as np # Used to store the values in DataFrames
+import numpy as np # Used to store the values in numpy array
+import pandas as pd # 
 from scipy import optimize # Used this to root maximize the steady state values
 from types import SimpleNamespace
+from scipy.optimize import fsolve
+from ipywidgets import interact, FloatSlider
 import matplotlib.pyplot as plt # Use this to plot graphs
 
 # 2. Update the standard parameters in matplotlib
@@ -168,6 +171,40 @@ class SteadyStatePlot:
         plt.grid(axis='y', linestyle='--')
         # viii. 
         plt.show()
+        
+# Define the Interactive Model class
+class RBCModelInteractive:
+    def __init__(self):
+        self.model = NumericalSolution(params=[0.9, 3, 0.1, 1/3, 1])
+        self.variables = ['Output (Y)', 'Consumption (C)', 'Investment (I)', 'Labour (L)', 'Leisure (leisure)', 'Capital (K)']
+    
+    def update_parameters_and_recompute(self, params):
+        self.model.update(params)
+        steady_state_values = pd.DataFrame({
+            'Steady state value': self.model.steady_state_numeric()
+        }, index=self.variables).round(2)
+        return steady_state_values
+    
+    def interactive_plot(self, discount_rate, disutility_from_labour, depreciation_rate, capital_share, technology):
+        params = [discount_rate, disutility_from_labour, depreciation_rate, capital_share, technology]
+        steady_state_values = self.update_parameters_and_recompute(params)
+        plot = SteadyStatePlot(variables=steady_state_values.index, steady_state_values=steady_state_values)
+        plot.simpleplot()
+    
+    def create_interactive_plot(self):
+        discount_rate_slider = FloatSlider(min=0.1, max=1.0, step=0.1, value=0.9, description='discount_rate')
+        disutility_from_labour_slider = FloatSlider(min=0.1, max=10.0, step=0.1, value=3, description='disutility_from_labour')
+        depreciation_rate_slider = FloatSlider(min=0.01, max=0.5, step=0.01, value=0.1, description='depreciation_rate')
+        capital_share_slider = FloatSlider(min=0.1, max=0.9, step=0.1, value=1/3, description='capital_share')
+        technology_slider = FloatSlider(min=0.1, max=2.0, step=0.1, value=1, description='technology')
+        
+        interact(self.interactive_plot, 
+                 discount_rate=discount_rate_slider,
+                 disutility_from_labour=disutility_from_labour_slider,
+                 depreciation_rate=depreciation_rate_slider,
+                 capital_share=capital_share_slider,
+                 technology=technology_slider)
+    
 
 # 6. Replacing production function with CES function and adding parameter rho
 # Define the RBC_CES class
