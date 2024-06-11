@@ -51,24 +51,24 @@ class RealBusinessCycleModel(object):
             self.log_first_order_condition(next_period_log_consumption, next_period_log_labour,
                 next_period_log_capital
             ),
-            # I. 
+ 
             self.log_euler_equation(
                 next_period_log_consumption, next_period_log_labour, next_period_log_capital, 
                 next_period_log_consumption
             ),
-            # II.
+  
             self.log_production_function(
                 next_period_log_output, next_period_log_labour, next_period_log_capital
             ),
-            # III. 
+      
             self.log_resource_constraint(
                 next_period_log_output, next_period_log_consumption, next_period_log_investment
             ),
-            # IV.
+           
             self.log_capital_accumulation(
                 next_period_log_capital, next_period_log_investment, next_period_log_capital
             ),
-            # V.
+           
             self.log_labour_leisure_constraint(
                 next_period_log_labour, next_period_log_leisure
             ),
@@ -77,7 +77,7 @@ class RealBusinessCycleModel(object):
     # c. We define the first equation in the model, which is the FOC (1)
     def log_first_order_condition(self, next_period_log_consumption, next_period_log_labour,
                        next_period_log_capital):
-        # i. Returns the result from the FOC (logged) below
+        
         return (
             np.log(self.disutility_from_labour) +
             next_period_log_consumption -
@@ -89,7 +89,7 @@ class RealBusinessCycleModel(object):
     # d. We define the second equation in the RBC model, which is the consumption Euler equation (2)
     def log_euler_equation(self, next_period_log_consumption, next_period_log_labour,
                             next_period_log_capital, this_period_log_consumption):
-        # i. Returns the result from the logged consumption euler equation below
+       
         return (
             -this_period_log_consumption -
             np.log(self.discount_rate) +
@@ -104,7 +104,7 @@ class RealBusinessCycleModel(object):
     
     # e. Define the third equation in the RBC model, which is the Cobb-Douglass production function
     def log_production_function(self, next_period_log_output, next_period_log_labour, next_period_log_capital):
-        # i. Returns the result from the equation for the logged production function below
+
         return ( next_period_log_output - (self.capital_share * next_period_log_capital + (1 - self.capital_share) 
          * next_period_log_labour)
          )
@@ -112,7 +112,6 @@ class RealBusinessCycleModel(object):
     # f. Define the fourth equation in the RBC model, which is the resource constraint for the economy
     def log_resource_constraint(self, next_period_log_output, next_period_log_consumption,
                                           next_period_log_investment):
-        # i. 
         return (
             next_period_log_output -
             np.log(np.exp(next_period_log_consumption) + np.exp(next_period_log_investment))
@@ -120,7 +119,7 @@ class RealBusinessCycleModel(object):
     
     # g. Define the fifth equation in the RBC model, which is the capital accumulation
     def log_capital_accumulation(self, next_period_log_capital, this_period_log_investment, this_period_log_capital):
-        # i. Returns the result from the equation for the capital accumulation
+
         return (
             next_period_log_capital -
             np.log(np.exp(this_period_log_investment) + (1 - self.depreciation_rate) * np.exp(this_period_log_capital))
@@ -128,14 +127,13 @@ class RealBusinessCycleModel(object):
     
     # h. Define the sixth equation in the RBC model, which is the labour-leisure constraint
     def log_labour_leisure_constraint(self, next_period_log_labour, next_period_log_leisure):
-        # i.
         return (
             -np.log(np.exp(next_period_log_labour) + np.exp(next_period_log_leisure))
         )
 
 # 4. Next, we need to make a class that calculates the numerical solution to the RBC model
 class NumericalSolution(RealBusinessCycleModel):
-    # a. Define the 
+    # a. Define the numeric solution
     def steady_state_numeric(self):
             # i. Setup the starting parameters for the variables
             start_log_variable = [0.5] * self.k_variables
@@ -149,45 +147,33 @@ class NumericalSolution(RealBusinessCycleModel):
             # iv. Outputs the numerical solution to the Real Business Cycle Model 
             return np.exp(solution.x)
 
-# 5. Define a class that 
+# 5. Define a class that plot the steady state values.
 class SteadyStatePlot:
-    # a.
+    # a. Defining the variables and steady state
     def __init__(self, variables, steady_state_values):
-        # i.
         self.variables = variables
-        # ii. 
         self.steady_state_values = steady_state_values
         
     # b. Define a method that plots the steady state values
     def simpleplot(self):
-        # i. Sets the size of the figure
+        # i. Sets the size of the figure and sets the bar diagram with the variables as input
         plt.figure(figsize=(10, 6))
-        # ii. Sets the bar diagram with the variables and steady state values as the input
         plt.bar(self.variables, self.steady_state_values['Steady state value'], color='skyblue')
-        # iii. Create a title for the plot
-        plt.title('Steady state')
-        # iv. Make a label for the x-axis
-        plt.xlabel('Variables')
-        # v. Make a label for the y-axis
-        plt.ylabel('Steady State values')
-        # vi. Rotates the ticks on the x-axis such that they do not overlap
-        plt.xticks(rotation=45)
-<<<<<<< HEAD
-        # vii. Add grids to the plot
-        plt.grid(axis='y', linestyle='--')
-        # viii. Shows the plot
-=======
 
-        plt.ylim(0, 1.4)  # Set y-axis limit to 1.4
-        # vii. 
+        # ii. Create a title and labels for plot
+        plt.title('Steady state')
+        plt.xlabel('Variables')
+        plt.ylabel('Steady State values')
+
+        # iii. Rotates the ticks on the x-axis such that they do not overlap and add grids
+        plt.xticks(rotation=45)
         plt.grid(axis='y', linestyle='--')
-        # viii. 
+
+        # iv. Set the y-axis limit dynamically
         max_value = max(self.steady_state_values['Steady state value'])
-        
-        # Set the y-axis limit dynamically
         plt.ylim(0, max_value * 1.1)  # Adjust ylim to give some extra space
-        
->>>>>>> 07144ec657785b4a48a94238f0742e13761382c8
+
+        # v. Shows the plot
         plt.show()
         
 # 6. Define the Interactive Model class
@@ -246,7 +232,7 @@ class RBCModelInteractive:
 # 6. Replacing production function with CES function and adding parameter rho
 # Define the RBC_CES class
 class RBC_CES(object):
-    # a. 
+    # a. Define params and variables
     def __init__(self, params=None):
         # i. We define the number of parameters
         self.k_params = 5
@@ -254,10 +240,9 @@ class RBC_CES(object):
         self.k_variables = 6
         # iii. Checks if the parameter is equal to none
         if params is not None:
-            # I. Update the instance with values from params
             self.update(params)
     
-    #
+    
     # a. Create a new class that updates the elements in the tuple
     def update(self, params):
         # i. The first element in the tuple should be the discount rate, beta
@@ -272,18 +257,18 @@ class RBC_CES(object):
         self.technology = params[4]
         # vi. The sixth element is the substitution parameter, rho
         self.rho = params[5]
-    
-    # 
+   
+    # b. Define the root-evaluated variables for both period t and period t+1
     def root_evaluated_variables(self, next_period_log_variables, this_period_log_variables):
-        # 
+        # i. The root-evaluated variables for period t
         (next_period_log_output, next_period_log_consumption, next_period_log_investment,
          next_period_log_labour, next_period_log_leisure, next_period_log_capital) = next_period_log_variables
         
-        #
+        # ii. The root-evaluated variables for period t+1
         (this_period_log_output, this_period_log_consumption, this_period_log_investment, this_period_log_labour,
          this_period_log_leisure, this_period_log_capital) = this_period_log_variables
         
-        #
+        # iii. We return a NumPy array with the five equations in the model
         return np.r_[
             self.log_first_order_condition(
                 next_period_log_consumption, next_period_log_labour,
@@ -308,10 +293,10 @@ class RBC_CES(object):
             ),
         ]
     
-    #
+    # c. We define the first equation in the model, which is the FOC (1)
     def log_first_order_condition(self, next_period_log_consumption, next_period_log_labour,
                        next_period_log_capital):
-        #
+        
         return (
             np.log(self.disutility_from_labour) +
             next_period_log_consumption -
@@ -320,10 +305,10 @@ class RBC_CES(object):
             self.capital_share * (next_period_log_capital - next_period_log_labour)
         )
     
-    #
+    # d. We define the second equation in the RBC model, which is the consumption Euler equation (2)
     def log_euler_equation(self, next_period_log_consumption, next_period_log_labour,
                             next_period_log_capital, this_period_log_consumption):
-        #
+        
         return (
             -this_period_log_consumption -
             np.log(self.discount_rate) +
@@ -336,106 +321,76 @@ class RBC_CES(object):
             )
         )
     
-    #
+    # e. Define the third equation for the extension of the RBC model, which is the CES production function
     def log_ces_function(self, next_period_log_output, next_period_log_labour, next_period_log_capital):
-        # CES production function
          return ( next_period_log_output - np.log(
             (self.capital_share * np.exp(self.rho * next_period_log_capital) +
             (1 - self.capital_share) * np.exp(self.rho * next_period_log_labour)) ** (1 / self.rho)
         )
          )
 
-    # 
+    # f. Define the fourth equation in the RBC model, which is the resource constraint for the economy
     def log_resource_constraint(self, next_period_log_output, next_period_log_consumption,
                                           next_period_log_investment):
-        # 
+        
         return (
             next_period_log_output -
             np.log(np.exp(next_period_log_consumption) + np.exp(next_period_log_investment))
         )
     
-    #
+    # g. Define the fifth equation in the RBC model, which is the capital accumulation
     def log_capital_accumulation(self, next_period_log_capital, this_period_log_investment, this_period_log_capital):
-        #
+        
         return (
             next_period_log_capital -
             np.log(np.exp(this_period_log_investment) + (1 - self.depreciation_rate) * np.exp(this_period_log_capital))
         )
     
-    #
+    # h. Define the sixth equation in the RBC model, which is the labour-leisure constraint
     def log_labour_leisure_constraint(self, next_period_log_labour, next_period_log_leisure):
-        #
+        
         return (
             -np.log(np.exp(next_period_log_labour) + np.exp(next_period_log_leisure))
         )
 
 
-# Numerical solution using the CES function
+# 4. make a class that calculates the numerical solution to the RBC model
 class NumericalSolutionCES(RBC_CES):
     def steady_state_numeric(self):
-            # Setup starting parameters
+            # i. Setup the starting parameters for the variables
             start_log_variable = [0.5] * self.k_variables
 
-            # Setup the function the evaluate
+            # ii. Setup the function to finding the root
             root_evaluated_variables = lambda log_variable: self.root_evaluated_variables(log_variable, log_variable)
 
-            # Apply the root-finding algorithm
+            # iii. Apply the root-finding algorithm
             solution = optimize.root(root_evaluated_variables, start_log_variable)
             
             return np.exp(solution.x)
-<<<<<<< HEAD
 
-#     
-class SteadyStatePlotCES:
-    #
-    def __init__(self, variables, steady_state_values):
-        #
-        self.variables = variables
-        #
-        self.steady_state_values = steady_state_values
-    
-    #
-    def simpleplot_ces(self):
-        #
-        plt.figure(figsize=(10, 6))
-        #
-        plt.bar(self.variables, self.steady_state_values['value'], color='skyblue')  # Access 'value' column
-        #
-        plt.title('Steady state values (CES)')
-        #
-        plt.xlabel('Variables')
-        #
-        plt.ylabel('Steady State values')
-        #
-        plt.xticks(rotation=45)
-        #
-        plt.grid(axis='y', linestyle='--')
-        
-        #
-=======
+
     
 class SteadyStatePlotCES:
+    # a. Define the variables and steady state
     def __init__(self, variables, steady_state_values):
         self.variables = variables
         self.steady_state_values = steady_state_values
-    
+    # b. Define a method that plots the steady state values
     def simpleplot_ces(self):
+        # i. Sets the size of the figure and the bar diagram with inputs
         plt.figure(figsize=(10, 6))
         plt.bar(self.variables, self.steady_state_values['value'], color='skyblue')  # Access 'value' column
+        # ii. Create a title and labels for the plot
         plt.title('Steady state values (CES)')
         plt.xlabel('Variables')
         plt.ylabel('Steady State values')
+
+        # iii. Rotate the ticks and add grids
         plt.xticks(rotation=45)
         plt.grid(axis='y', linestyle='--')
-        
->>>>>>> 07144ec657785b4a48a94238f0742e13761382c8
+
+        # iv. Set the y-axis limit dynamically
         max_value = max(self.steady_state_values['value'])
-        
-        # Set the y-axis limit dynamically
         plt.ylim(0, max_value * 1.1)  # Adjust ylim to give some extra space
-        
-<<<<<<< HEAD
-        #
-=======
->>>>>>> 07144ec657785b4a48a94238f0742e13761382c8
+        # v. Show the plot
         plt.show()
