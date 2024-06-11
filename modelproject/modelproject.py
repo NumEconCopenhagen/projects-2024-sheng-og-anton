@@ -51,19 +51,24 @@ class RealBusinessCycleModel(object):
             self.log_first_order_condition(next_period_log_consumption, next_period_log_labour,
                 next_period_log_capital
             ),
+            # I. 
             self.log_euler_equation(
                 next_period_log_consumption, next_period_log_labour, next_period_log_capital, 
                 next_period_log_consumption
             ),
+            # II.
             self.log_production_function(
                 next_period_log_output, next_period_log_labour, next_period_log_capital
             ),
+            # III. 
             self.log_resource_constraint(
                 next_period_log_output, next_period_log_consumption, next_period_log_investment
             ),
+            # IV.
             self.log_capital_accumulation(
                 next_period_log_capital, next_period_log_investment, next_period_log_capital
             ),
+            # V.
             self.log_labour_leisure_constraint(
                 next_period_log_labour, next_period_log_leisure
             ),
@@ -144,7 +149,7 @@ class NumericalSolution(RealBusinessCycleModel):
             # iv. Outputs the numerical solution to the Real Business Cycle Model 
             return np.exp(solution.x)
 
-# 5. 
+# 5. Define a class that 
 class SteadyStatePlot:
     # a.
     def __init__(self, variables, steady_state_values):
@@ -153,20 +158,25 @@ class SteadyStatePlot:
         # ii. 
         self.steady_state_values = steady_state_values
         
-    # b.
+    # b. Define a method that plots the steady state values
     def simpleplot(self):
         # i. Sets the size of the figure
         plt.figure(figsize=(10, 6))
         # ii. Sets the bar diagram with the variables and steady state values as the input
         plt.bar(self.variables, self.steady_state_values['Steady state value'], color='skyblue')
-        # iii. 
+        # iii. Create a title for the plot
         plt.title('Steady state')
-        # iv. 
+        # iv. Make a label for the x-axis
         plt.xlabel('Variables')
-        # v.
+        # v. Make a label for the y-axis
         plt.ylabel('Steady State values')
-        # vi.
+        # vi. Rotates the ticks on the x-axis such that they do not overlap
         plt.xticks(rotation=45)
+<<<<<<< HEAD
+        # vii. Add grids to the plot
+        plt.grid(axis='y', linestyle='--')
+        # viii. Shows the plot
+=======
 
         plt.ylim(0, 1.4)  # Set y-axis limit to 1.4
         # vii. 
@@ -177,54 +187,74 @@ class SteadyStatePlot:
         # Set the y-axis limit dynamically
         plt.ylim(0, max_value * 1.1)  # Adjust ylim to give some extra space
         
+>>>>>>> 07144ec657785b4a48a94238f0742e13761382c8
         plt.show()
         
-# Define the Interactive Model class
+# 6. Define the Interactive Model class
 class RBCModelInteractive:
+    # a. Define the initializer method used when instances are created in the notebook
     def __init__(self):
+        # i. Define the parameters of the model [beta, disutility from labour, depreciation rate, capital share, technology] 
         self.model = NumericalSolution(params=[0.9, 3, 0.1, 1/3, 1])
-        self.variables = ['Output (Y)', 'Consumption (C)', 'Investment (I)', 'Labour (L)', 'Leisure (leisure)', 'Capital (K)']
+        # ii. Define the names of the variables in the model
+        self.variables = ['Output', 'Consumption', 'Investment', 'Labour', 'Leisure', 'Capital']
     
+    # b. Define a method that updates the values of the parameters
     def update_parameters_and_recompute(self, params):
+        # i. Update the parameters in the model
         self.model.update(params)
+        # ii. Create a variable that stores the steady state values in a pandas dataframe
         steady_state_values = pd.DataFrame({
             'Steady state value': self.model.steady_state_numeric()
         }, index=self.variables).round(2)
+        # iii. Return the DataFrame with the steady state values
         return steady_state_values
     
+    # c. Define a method that sets up the interactive plot
     def interactive_plot(self, discount_rate, disutility_from_labour, depreciation_rate, capital_share, technology):
+        # i. Define the five parameters
         params = [discount_rate, disutility_from_labour, depreciation_rate, capital_share, technology]
+        # ii. Call the DataFrame with the steady state values
         steady_state_values = self.update_parameters_and_recompute(params)
+        # iii. Call the SteadyStatePlot class used to make the simple plot
         plot = SteadyStatePlot(variables=steady_state_values.index, steady_state_values=steady_state_values)
+        # iv. Plot the simple plot from the SteadyStatePlot class
         plot.simpleplot()
     
+    # d. Define a method that plots the interactive plot
     def create_interactive_plot(self):
+        # i. Make a slider for the discount rate parameter
         discount_rate_slider = FloatSlider(min=0.1, max=1.0, step=0.1, value=0.9, description='discount_rate')
+        # ii. Make a slider for the marginal disutility from labour parameter
         disutility_from_labour_slider = FloatSlider(min=0.1, max=10.0, step=0.1, value=3, description='disutility_from_labour')
+        # iii. Make a slider for the depreciation rate parameter
         depreciation_rate_slider = FloatSlider(min=0.01, max=0.5, step=0.01, value=0.1, description='depreciation_rate')
+        # iv. Make a slider for the capital share parameter
         capital_share_slider = FloatSlider(min=0.1, max=0.9, step=0.1, value=1/3, description='capital_share')
+        # v. Make a slider for the technology parameter
         technology_slider = FloatSlider(min=0.1, max=2.0, step=0.1, value=1, description='technology')
         
+        # vi. Combine the sliders and plot the interactive plot
         interact(self.interactive_plot, 
-                 discount_rate=discount_rate_slider,
+                 discount_rate=discount_rate_slider, #
                  disutility_from_labour=disutility_from_labour_slider,
                  depreciation_rate=depreciation_rate_slider,
                  capital_share=capital_share_slider,
-                 technology=technology_slider)
+                 technology=technology_slider) 
     
 
 # 6. Replacing production function with CES function and adding parameter rho
 # Define the RBC_CES class
 class RBC_CES(object):
-    # 
+    # a. 
     def __init__(self, params=None):
-        # a. We define the number of parameters
+        # i. We define the number of parameters
         self.k_params = 5
-        # b. Define the number of variables
+        # ii. Define the number of variables
         self.k_variables = 6
-        # c. Checks if the parameter is equal to none
+        # iii. Checks if the parameter is equal to none
         if params is not None:
-            # i. Update the instance with values from params
+            # I. Update the instance with values from params
             self.update(params)
     
     #
@@ -353,6 +383,36 @@ class NumericalSolutionCES(RBC_CES):
             solution = optimize.root(root_evaluated_variables, start_log_variable)
             
             return np.exp(solution.x)
+<<<<<<< HEAD
+
+#     
+class SteadyStatePlotCES:
+    #
+    def __init__(self, variables, steady_state_values):
+        #
+        self.variables = variables
+        #
+        self.steady_state_values = steady_state_values
+    
+    #
+    def simpleplot_ces(self):
+        #
+        plt.figure(figsize=(10, 6))
+        #
+        plt.bar(self.variables, self.steady_state_values['value'], color='skyblue')  # Access 'value' column
+        #
+        plt.title('Steady state values (CES)')
+        #
+        plt.xlabel('Variables')
+        #
+        plt.ylabel('Steady State values')
+        #
+        plt.xticks(rotation=45)
+        #
+        plt.grid(axis='y', linestyle='--')
+        
+        #
+=======
     
 class SteadyStatePlotCES:
     def __init__(self, variables, steady_state_values):
@@ -368,9 +428,14 @@ class SteadyStatePlotCES:
         plt.xticks(rotation=45)
         plt.grid(axis='y', linestyle='--')
         
+>>>>>>> 07144ec657785b4a48a94238f0742e13761382c8
         max_value = max(self.steady_state_values['value'])
         
         # Set the y-axis limit dynamically
         plt.ylim(0, max_value * 1.1)  # Adjust ylim to give some extra space
         
+<<<<<<< HEAD
+        #
+=======
+>>>>>>> 07144ec657785b4a48a94238f0742e13761382c8
         plt.show()
