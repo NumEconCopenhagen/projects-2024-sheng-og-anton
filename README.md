@@ -8,18 +8,18 @@
 ## Content
 This repository contains the following
 
-**[Inaugural Project](./inauguralproject)**
----
+1. **[Inaugural Project - Optimal Allocations in the Exchange Economy](./inauguralproject)**
+--- 
 We solve the Exchange Economy, where we find equilibria.
 
-**[Data Project](./dataproject)** 
+2. **[Data Project - Exchange Rate Dynamics: The Relationship between Danish Inflation and Exchange Rates](./dataproject)** 
 ---
-We fetch data from **Danmarks Statistik (Statistikbanken)** on **Exchange rates (EUR, USD, CNY) in 100 DKK** and show that danish inflation rate puts a pressure on the central currency parity.
+We fetch data from **Danmarks Statistik (Statistikbanken)** on **Exchange rates (EUR, USD, and CNY) in 100 DKK** and show that danish inflation rate puts a pressure on the central currency parity.
 
-**[Model Project](./modelproject)**
+3. **[Model Project - Steady State in the Real Business Cycle Model](./modelproject)**
 ---
-We model the simple Real Business Cycle Model (RBC-model), where technology, A, is exogenous and set to 1.
+We numerically solve the simple Real Business Cycle Model (RBC-model), where technology, A, is exogenous and set to 1. Furthermore, we extend the model by using a CES production function instead of a Cobb-Douglas production function.
 
-**[Exam Project](./examproject)**
+4. **[Exam Project - ](./examproject)**
 ---
 It is about...
