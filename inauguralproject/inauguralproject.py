@@ -18,22 +18,21 @@ class EdgeworthBoxClass:
     def __init__(self, alpha, beta, endowment_A, num_pairs=50):
         
         self.alpha = alpha
-        #
+        
         self.beta = beta
 
-        #
         self.endowment_A = endowment_A
-        #
+        
         self.endowment_B = [1 - e for e in endowment_A]
 
-        # v. Set the number of allocations
+        # Set the number of allocations
         self.N = 75
         
         self.num_pairs = num_pairs
 
         self.pairs = None
 
-        # vi. Define an instance of the number of pairs of endowments for consumer A
+        # Define an instance of the number of pairs of endowments for consumer A
         self.num_pairs = num_pairs
 
     # b. Define the utility function for consumer A
@@ -72,25 +71,22 @@ class EdgeworthBoxClass:
         pareto_improvements = []
         # ii. Using a nested for loop to find and define x_A1 and x_A2
         for i in range(self.N + 1):
-            # I.
+            
             x_A1 = i / self.N
-            # II.
+            
             for j in range(self.N + 1):
-                # II.a
+                
                 x_A2 = j / self.N
-
-                # II.b Calculate x_B1 based on x_A1
+               
                 x_B1 = 1 - x_A1
                 
-                # II.c Calculate x_B2 based on x_A2
                 x_B2 = 1 - x_A2
 
-                # II.d Checking the Pareto improvement relative to the endowment
                 if self.u_A(x_A1, x_A2) >= self.u_A(self.endowment_A[0], self.endowment_A[1]) and \
                         self.u_B(x_B1, x_B2) >= self.u_B(self.endowment_B[0], self.endowment_B[1]) and \
                         x_B1 == 1 - x_A1 and x_B2 == 1 - x_A2:
                     
-                    # II.d.1 Storing combination of x_A1 and x_A2.
+                    # Storing combination of x_A1 and x_A2
                     pareto_improvements.append((x_A1, x_A2))
 
         # iii. Return the list of pareto improvements
@@ -103,10 +99,8 @@ class EdgeworthBoxClass:
 
         fig, ax = plt.subplots(figsize=(8, 8))
 
-        #
         ax.set_xlabel("$x_1^A$")  # setting x-axis label
         
-        #
         ax.set_ylabel("$x_2^A$")  # setting y-axis label
         
         # Setting the limits
@@ -132,7 +126,7 @@ class EdgeworthBoxClass:
             # i.b. Set total endowment for good 1 equal to endowment for consumer A plus endowment for consumer B
             total_endowment_x1 = self.endowment_A[0] + self.endowment_B[0]
             
-            # 1.c. Return the excess demand for good 1 defined by the difference between the aggregate demand and total endowment
+            # i.c. Return the excess demand for good 1 defined by the difference between the aggregate demand and total endowment
             return aggregate_demand_x1 - total_endowment_x1
 
         # ii. Calculate the market clearing price by minimizing the excess demand for good 1, since there is no excess demand at this price
@@ -221,46 +215,32 @@ class EdgeworthBoxClass:
 
 # 3. 
 class ErrorMarketClass:
-    # a. 
+    # a. Define parameters and allocations
     def __init__(self):
-        # i.
+
         par = self.par = SimpleNamespace()
-        
-        # ii. preferences
         par.alpha = 1/3
-        # iii. 
         par.beta = 2/3
-        
-        # iv. Set the value of endowment for good 1 for consumer A
         par.w1A = 0.8
-        # v. Set the value of endowment for good 2 for consumer A
         par.w2A = 0.3
-        # vi. Set the price of the second good to be numeraire
         par.p2 = 1
-        
-        # vii. Set the number of allocations
         self.N = 75
 
     # b. Define the utility function for consumer A
     def utility_A(self, x1A, x2A):
-        # i. Return 
         return x1A ** self.par.alpha * x2A ** (1 - self.par.alpha)
 
-    # c.
+    # c. Define the utility for consumer B
     def utility_B(self, x1B, x2B):
-        #
         return x1B ** self.par.beta * x2B ** (1 - self.par.beta)
 
-    # d.
+    # d. Define the demand for consumer A
     def demand_A(self, p1):
-        #
         x1A_star = self.par.alpha * (p1 * self.par.w1A + self.par.p2 * self.par.w2A) / p1
-        #
         x2A_star = (1 - self.par.alpha) * (p1 * self.par.w1A + self.par.p2 * self.par.w2A) / self.par.p2
-        #
         return x1A_star, x2A_star
 
-    # e.
+    # e. Define the demand for consumer B
     def demand_B(self, p1):
         #
         x1B_star = self.par.beta * (p1 * (1 - self.par.w1A) + self.par.p2 * (1 - self.par.w2A)) / p1
@@ -269,27 +249,17 @@ class ErrorMarketClass:
         #
         return x1B_star, x2B_star
 
-    # f.
+    # f. Define market condition
     def check_market_clearing(self):
-        # i.
         par = self.par
-        # ii.
         self.rho1 = [0.5 + 2 * i / self.N for i in range(self.N + 1)]
-
-        # iii.
         errors = []
 
-        # iv.
         for p1 in self.rho1:
-            # iva.
             x1A_star, x2A_star = self.demand_A(p1)
-            # ivb.
             x1B_star, x2B_star = self.demand_B(p1)
-            # ivc.
             eps1 = round(x1A_star - par.w1A + x1B_star - (1 - par.w1A),2)
-            # ivd.
             eps2 = round(x2A_star - par.w2A + x2B_star - (1 - par.w2A),2)
-            # ive.
             errors.append((eps1, eps2))
 
         # v. Return the errors for the market clearing conditions
@@ -299,19 +269,10 @@ class ErrorMarketClass:
 class PointPlotter:
     # a. Define a function
     def __init__(self, points, labels_for_points, colors, w1bar=1.0, w2bar=1.0):
-        # i. 
         self.points = points
-        
-        # ii. 
         self.labels_for_points = labels_for_points
-        
-        # iii. 
         self.colors = colors
-        
-        # iv. 
         self.w1bar = w1bar
-        
-        # v.
         self.w2bar = w2bar
 
     # b. Define a function that plots the previous optimal allocations from the questions
