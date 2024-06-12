@@ -13,12 +13,18 @@ Our model project is titled **STEADY STATE IN THE REAL BUSINESS CYCLE MODEL** an
 
 **The structure of the project:**
 ---
-1. **[Introduction](modelproject.ipynb#conclusion):**
-2. **[Model description](modelproject.ipynb#conclusion):**
-3. **[Steady state equations](modelproject.ipynb#conclusion):**
-4. **[Numerical solution](modelproject.ipynb#conclusion):**
-5. **[Linear approximations](modelproject.ipynb#conclusion):**
-6. **[Conclusion](modelproject.ipynb#conclusion):**
+1. **[Introduction](modelproject.ipynb#introduction):**
+2. **[Model description](modelproject.ipynb#modeldescription):**
+3. **[Steady state equations](modelproject.ipynb#steadystateequation):**
+4. **[Numerical solution](modelproject.ipynb#numericalsolution):**
+5. **[Linear approximations](modelproject.ipynb#linearapproximations):**
+6. **[Log-Linerization](modelproject.ipynb#loglinearization)**:
+7. **[Root finding algorithm](modelproject.ipynb#rootfindingalgorithm)**:
+8. **[The Log-linerized system of equations](modelproject.ipynb#loglinearsystem)**:
+9. **[Code](modelproject.ipynb#code)**:
+10. **[Static plot for the Steady State values](modelproject.ipynb#staticplot)**:
+11. **[Interactive plot for the Steady State values](modelproject.ipynb#interactiveplot)**:
+12. **[Conclusion](modelproject.ipynb#conclusion)**:
 
 **Instructions:**
 ---
