@@ -25,13 +25,13 @@ We apply the **following datasets** to answer our research question:
 We *structure* our data project in this following way:
 - **[Table of contents](dataproject.ipynb#tableofcontents):**
 - **[Introduction](dataproject.ipynb#introduction):** We mention our research question of interest, we motivate it, and we mention our results.
-- **[Research question](dataproject.ipynb#researchquestion):**
+- **[Research question](dataproject.ipynb#researchquestion):** We mention our research question: *"How does Danish inflation affect the exchange rates Euro and the US Dollar?"*
 - **[Data analysis](dataproject.ipynb#dataanalysis):**
 - **[Import of packages](dataproject.ipynb#imports):** We start by importing the packages used in the notebook (listed under Dependencies).
-- **[Read and clean data](dataproject.ipynb#readandcleandata):**
-- **[The first dataset](dataproject.ipynb#firstimport):** We import the first dataset using an API.
-- **[Import of the second dataset](dataproject.ipynb#secondimport):** We import the second dataset using a csv-file and Pandas.
-- **[Merging of the two datasets](dataproject.ipynb#merge):** We merge the two datasets using an outer merge.
+- **[Read and clean data](dataproject.ipynb#readandcleandata):** In this section, we read and clean the two datasets. 
+- **[The first dataset: The three exchange rates (EUR, USD, and CNY)](dataproject.ipynb#firstimport):** We import the first dataset on exchange rates from Statistikbanken using an API.
+- **[The second dataset: Danish Inflation (Consumer Price Index)](dataproject.ipynb#secondimport):** We import the second dataset using a csv-file and the Pandas library.
+- **[Merge datasets](dataproject.ipynb#merge):** We merge the two datasets using an outer merge.
 - **[Descriptive statistics](dataproject.ipynb#descriptivestatistics):** We make descriptive statistics on the merged raw data.
 - **[Eurozone Inflation and the Exchange Rates](dataproject.ipynb#):** 
 - **[Conclusion](dataproject.ipynb#conclusion):** We conclude our findings in the data project based on the research question.
