@@ -28,8 +28,8 @@ We *structure* our data project in this following way:
 - **[Research question](dataproject.ipynb#researchquestion):**
 - **[Data analysis](dataproject.ipynb#dataanalysis):**
 - **[Import of packages](dataproject.ipynb#imports):** We start by importing the packages used in the notebook (listed under Dependencies).
-- **[]():**
-- **[Import of the first dataset](dataproject.ipynb#firstimport):** We import the first dataset using an API.
+- **[Read and clean data](dataproject.ipynb#readandcleandata):**
+- **[The first dataset](dataproject.ipynb#firstimport):** We import the first dataset using an API.
 - **[Import of the second dataset](dataproject.ipynb#secondimport):** We import the second dataset using a csv-file and Pandas.
 - **[Merging of the two datasets](dataproject.ipynb#merge):** We merge the two datasets using an outer merge.
 - **[Descriptive statistics](dataproject.ipynb#descriptivestatistics):** We make descriptive statistics on the merged raw data.
