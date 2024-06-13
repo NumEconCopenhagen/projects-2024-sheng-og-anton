@@ -10,7 +10,7 @@ This repository contains the following
 
 **[Inaugural Project - Optimal Allocations in the Exchange Economy](./inauguralproject)**
 --- 
-We solve the Exchange Economy, where we find equilibria.
+We solve the Exchange Economy, where we find the optimal allocations for consumer A based on different assumptions.
 
 **[Data Project - Exchange Rate Dynamics: The Relationship between Danish Inflation and Exchange Rates](./dataproject)** 
 ---
