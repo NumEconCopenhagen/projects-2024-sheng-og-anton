@@ -595,30 +595,54 @@ class RandomParetoImprovements:
             x1 (float): The amount of good 1, which is consumed by consumer A.
             x2 (float): The amount of good 2, which is consumed by consumer A.
 
+        Returns:
+            float: Utility for consumer A.  
         """
         return x1**self.alpha * x2**(1-self.alpha)
 
     def u_B(self, x1, x2):
         """
+        Calculates utility for consumer B.
 
+        Args:
+            x1 (float): The amount of good 1, which is consumed by consumer B. 
+            x2 (float): The amount of good 2, which is consumed by consumer B.
 
+        Returns:
+            float: Utility for consumer B.
         """
         return x1**self.beta * x2**(1-self.beta)
 
     def market_equilibrium(self, omega):
         """
-
+        Calculates optimal allocations for a given set of endowments.
+        
+        Args: 
+            Omega (ndarray): NumPy array of endowments for the consumers.
+        
+        Returns:
+            tuple: 
+                xA1_star (float): The optimal allocation of good 1 for consumer A.
+                xA2_star (float): The optimal allocation of good 2 for consumer A.
+                xB1_star (float): The optimal allocation of good 1 for consumer B.
+                xB2_star (float): The optimal allocation of good 2 for consumer B.
         """
 
         def objective(p):
             """
+            Objective function to minimize the errors in the market clearing conditions.
 
+            Args: 
+                p (float): The price of good 1.
 
+            Returns:
+                float: Error in the market clearing condition for good 1.
             """
 
             # Inverse demand functions derived from utility maximization
             xA1_star = self.alpha * (omega[0] + p * omega[1]) / p
             xB1_star = self.beta * ((1 - omega[0]) + p * (1 - omega[1])) / p
+            
             # Market clearing condition error for good 1
             error = np.abs(xA1_star + xB1_star - 1)
             return error
@@ -639,6 +663,12 @@ class RandomParetoImprovements:
     def plot_of_the_random_pareto_improvements(self):
         """
         Plots the generated random endowments.
+        
+        Args: 
+            None
+        
+        Returns: 
+            None
         """
 
         # Create the figure and the main axis
