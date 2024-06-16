@@ -14,9 +14,30 @@ from scipy.optimize import minimize
 
 # 2. Defines a class that is used to answer most of the questions
 class EdgeworthBoxClass:
+    """
+    Class used to analyze the different optimal allocations for consumer A in the Edgeworth Box
+
+    Attributes:
+        alpha (float): Preference parameter for consumer A.
+        beta (beta): Preference parameter for consumer B.
+        endowment_A (list): The initial endowment for consumer A.
+        endowment_B (list): The initial endowment for consumer B.
+        N (int): Number of allocations used for plotting in question 7.
+        num_pairs (int): The number of pairs of random endowments which should be generated in question 7.
+        pairs (list): The list of the pairs of random endowments.
+    """
     # a. Create an instance of the class with the given values of parameters and endowments
     def __init__(self, alpha, beta, endowment_A, num_pairs=50):
-        
+        """
+        Initialize the EdgeworthBoxClass with preferences, endowments, and the number of pairs.
+
+        Args:
+            alpha (float): Preference parameter for consumer A.
+            beta (float): Preference parameter for consumer B.
+            endowment_A (list): Initial endowments for consumer A.
+            num_pairs (int): Number of pairs of random endowments to be generated in question 7.
+        """     
+
         self.alpha = alpha
         
         self.beta = beta
@@ -37,36 +58,107 @@ class EdgeworthBoxClass:
 
     # b. Define the utility function for consumer A
     def u_A(self, x_A1, x_A2):
+        """
+        Calculates the utility for consumer A based on her utility function
+
+        Args: 
+            x_A1 (float): The amount of good 1 which is consumed by consumer A.
+            x_A2 (float): The amount of good 2 which is consumed by consumer A.
+
+        Returns:
+            float: Utility of consumer A.
+
+        """
         # i. Returns the value of the utility function for consumer A
         return x_A1**self.alpha * x_A2**(1 - self.alpha)
 
     # c. Define the utility function for consumer B
     def u_B(self, x_B1, x_B2):
+        """
+        Calculate the utility for consumer B.
+
+        Args: 
+            x_B1 (float): The amount of good 1, which is consumed by consumer B.
+            x_B2 (float): The amount of good 2, which is consumed by consumer B.
+
+        Returns:
+            float: Utility of consumer B.
+
+        """
         # i. Returns the value of the utility function for consumer B
         return x_B1**self.beta * x_B2**(1 - self.beta)
 
     # d. Define the demand function for good 1 for consumer A 
     def demand_A_x1(self, p1, p2):
+        """
+        Calculates the demand for good 1 by consumer A.
+
+        Args:
+            p1 (float): Price of good 1.
+            p2 (float): Price of good 2.
+
+        Returns: 
+            float: Demand for good 1 by consumer A.
+
+        """
         # i. Returns the value of the demand function
         return self.alpha * (p1*self.endowment_A[0] + p2*self.endowment_A[1]) / p1
 
     # e. Define the demand function for good 2 for consumer A
     def demand_A_x2(self, p1, p2):
+        """
+        Calculates the demand for good 2 by consumer A.
+
+        Args: 
+            p1 (float): Price of good 1.
+            p2 (float): Price of good 2.
+
+        Returns: 
+            float: Demand for good 1 by consumer A.
+
+        """
         # i. Returns the value of the demand function
         return (1 - self.alpha) * (p1*self.endowment_A[0] + p2*self.endowment_A[1]) / p2
 
     # f. Define the demand function for good 1 for consumer B
     def demand_B_x1(self, p1, p2):
+        """
+        Calculate the demand for good 1 by consumer B.
+
+        Args:
+            p1 (float): Price of good 1.
+            p2 (float): Price of good 2.
+
+        Returns:
+            float: Demand for good 1 by consumer B.            
+        """
         # i. Returns the value of the demand function
         return self.beta * (p1*self.endowment_B[0] + p2*self.endowment_B[1]) / p1
 
     # g. Define the demand function for good 2 for consumer B
     def demand_B_x2(self, p1, p2):
+        """
+        Calculate the demand for good 2 by consumer B.
+
+        Args: 
+            p1 (float): Price of good 1.
+            p2 (float): Price of good 2.
+        
+        Returns: 
+            float: Demand for good 2 by consumer B. 
+
+        """
         # i. Returns the value of the demand function
         return (1 - self.beta) * (p1*self.endowment_B[0] + p2*self.endowment_B[1]) / p2
 
     # h. Define the function that finds the pareto improvements
     def pareto_improvements(self):
+        """
+        Finds the Pareto improvements from the initial endowments for the two consumers.
+
+        Returns:
+            list: List of tuples representing Pareto improvements.
+        """
         # i. Create an empty list that will store the pareto improvements
         pareto_improvements = []
         # ii. Using a nested for loop to find and define x_A1 and x_A2
@@ -94,6 +186,12 @@ class EdgeworthBoxClass:
     
     # i. Define a function that plots the Edgeworth Box
     def plot_edgeworth_box(self):
+        """
+        Plots the Edgeworth Box with Pareto imrovements and initial endowments for the two consumers.
+
+        Returns:
+            A plot with the Pareto improvements.
+        """
         result = self.pareto_improvements()
         result = np.array(result)
 
@@ -118,8 +216,24 @@ class EdgeworthBoxClass:
 
     # j. Find the market clearing price for question 3
     def market_clearing_price(self):
+        """
+        Finds the market clearing price for good 1 for the two consumers.
+
+        Returns:
+            float: Market clearing price for good 1.
+        """
         # i. Define a functions that calculates the excess demand 
         def excess_demand_x1(p1):
+            """
+            Calculates the excess demand for good 1.
+
+            Args: 
+                p1 (float): Price of good 1.
+
+            Returns:
+                float: Excess demand for good 1.
+
+            """
             # i.a. Set aggregate demand for good 1 equal to demand for consumer A plus the demand for consumer B 
             aggregate_demand_x1 = self.demand_A_x1(p1, 1) + self.demand_B_x1(p1, 1)
             
@@ -137,8 +251,24 @@ class EdgeworthBoxClass:
     
     # k. Define a function that calculates the optimal allocation under a utilitarian social planner in question 6.a
     def SocialPlanner(self): 
+        """
+        Calculates the optimal allocation for the two consumers under a utilitarian social planner which maximizes aggregate utility.
+
+        Returns:
+            tuple: Optimal allocation for consumer A.
+
+        """
         # i. Define a function that is the objective function for the utilitarian social planner
         def utilitarian_objective_function(x):
+            """
+            Calculates the negative of the aggregate utility function for the social planner, which will be minimized.
+
+            Args:
+                x (list): Allocation of the two goods for consumer A.
+
+            Returns:
+                float: The negative of the total utility for the consumers.
+            """
             # ia. Return the utility based on the total utility
             return-(self.u_A(x[0],x[1])+self.u_B(1-x[0],1-x[1]))
         
@@ -174,11 +304,18 @@ class EdgeworthBoxClass:
     
     # l. Define a function that generates the random endowments
     def generate_random_endowments(self):
+        """
+        Generates the random endowments for both consumers.
+
+        """
         # i. Calculate pairs of endowments based on the uniform
         self.pairs = np.random.uniform(0, 1, (self.num_pairs, 2))
     
     # m. Define a function that prints the random endowments
     def print_random_endowments(self):
+        """
+        Solves the model for each of the pairs of random endowments and finds the market clearing prices.
+        """
         # i. If-statement for if there have been generated endowments
         if self.pairs is None:
             # I. Print statement when there have not been generated any random endowments
@@ -192,6 +329,9 @@ class EdgeworthBoxClass:
     
     # n. Define a function that plots the random endowments
     def plot_random_endowments(self):
+        """
+        Plots the generated random endowments.
+        """
         # i. If-statement for if there have been generated endowments
         if self.pairs is None:
             # I. Print statement when there have not been generated any random endowments 
@@ -215,8 +355,16 @@ class EdgeworthBoxClass:
 
 # 3. 
 class ErrorMarketClass:
+    """
+
+    """
     # a. Define parameters and allocations
     def __init__(self):
+        
+        """
+        Initializes the market with the default parameters.
+
+        """
 
         par = self.par = SimpleNamespace()
         par.alpha = 1/3
@@ -228,29 +376,77 @@ class ErrorMarketClass:
 
     # b. Define the utility function for consumer A
     def utility_A(self, x1A, x2A):
+        """
+        Calculates the utility for consumer A.
+
+        Args: 
+            x1A (float): The amount of good 1 which is consumed by consumer A.
+            x2A (float): The amount of good 2 which is consumed by consumer A.
+
+        Returns: 
+            float: Utility for consumer A.
+        """
         return x1A ** self.par.alpha * x2A ** (1 - self.par.alpha)
 
     # c. Define the utility for consumer B
     def utility_B(self, x1B, x2B):
+        """
+        Calculates the utility for consumer B.
+
+        Args: 
+            x1B (float): Amount of good 1 which is consumed by consumer B.
+            x2B (float): Amount of goof 2 which is consumed by consumer B.
+
+        Returns:
+            float: Utility for consumer B.
+        """
         return x1B ** self.par.beta * x2B ** (1 - self.par.beta)
 
     # d. Define the demand for consumer A
     def demand_A(self, p1):
+        """
+        Calculates the demand for the two goods for consumer A.
+
+        Args: 
+            p1 (float): Price of good 1.
+
+        Returns:
+            tuple: Optimal allocation of the two goods, where:
+                x1A_star (float): The optimal amount of good 1 which is demanded by consumer A.
+                x2A_star (float): The optimal amount og good 2 which is demanded by consumer A.
+        """
         x1A_star = self.par.alpha * (p1 * self.par.w1A + self.par.p2 * self.par.w2A) / p1
         x2A_star = (1 - self.par.alpha) * (p1 * self.par.w1A + self.par.p2 * self.par.w2A) / self.par.p2
         return x1A_star, x2A_star
 
     # e. Define the demand for consumer B
     def demand_B(self, p1):
-        #
+        """
+        Calculates the demand for the two goods for consumer B.
+
+        Args: 
+            p1 (float): Price of good 1.
+        
+        Returns: 
+            tuple: Which contains the optimal allocation of good 1 and good 2 for consumer B.
+                x1B_star (float): Optimal allocation of good 1 for consumer B.
+                x2B_star (float): Optimal allocation of good 2 for consumer B.
+        """
         x1B_star = self.par.beta * (p1 * (1 - self.par.w1A) + self.par.p2 * (1 - self.par.w2A)) / p1
-        #
         x2B_star = (1 - self.par.beta) * (p1 * (1 - self.par.w1A) + self.par.p2 * (1 - self.par.w2A)) / self.par.p2
-        #
         return x1B_star, x2B_star
 
-    # f. Define market condition
+    # f. Define a method that checks the market clearing conditions
     def check_market_clearing(self):
+        """
+        Checks market clearing conditions across a range of prices. 
+        
+        Returns: 
+            list: A list which contains a tuple of the errors for the two market clearing conditions.
+                tuple: A tuple which contains the two errors for the market clearing conditions.
+                    eps1 (float): Error in the market clearing condition for good 1.
+                    eps2 (float): Error in the market clearing condition for good 2.
+        """
         par = self.par
         self.rho1 = [0.5 + 2 * i / self.N for i in range(self.N + 1)]
         errors = []
@@ -262,13 +458,36 @@ class ErrorMarketClass:
             eps2 = round(x2A_star - par.w2A + x2B_star - (1 - par.w2A),2)
             errors.append((eps1, eps2))
 
-        # v. Return the errors for the market clearing conditions
         return errors
 
 # 4. Define a class that plots the different optimal allocations in the figure in question 6.B 
 class PointPlotter:
-    # a. Define a function
+    """
+    A class used for plotting the points of optimal allocations with labels and colors.
+    
+    Attributes:
+        Points (list): List of tuples which contains the 
+        labels_for_points (list): List of labels which corresponds to each of the points for optimal allocation.
+        colors (list): List of colors which corresponds to each of the points for optimal allocation.
+        w1bar (float): The upper limit for the x-axis, which is total feasible endowment of good 1.
+        w2bar (float): The upper limit for the y-axis, which is total feasible endowment of good 2.
+    """
+    # a. Define a function that initializes the class
     def __init__(self, points, labels_for_points, colors, w1bar=1.0, w2bar=1.0):
+        """
+        Initializes the PointPlotter class with points, labels, colors, and axis limits (total feasible endowments)
+        
+        Args:
+            points (list): List of tuples which contains the points that should be plotted.
+            labels_for_points (list): List of labels which corresponds to each of the points for optimal allocation.
+            colors (list): List of colors which corresponds to each of the points for optimal allocation. 
+            w1bar (float): Upper limit for the x-axis, which is the total feasible endowment for good 1 for the consumers.
+            w2bar (float): Upper limit for the y-axis, which is the total feasible endowment for good 2 for the consumers.
+            
+        Returns:
+            None
+        """
+        
         self.points = points
         self.labels_for_points = labels_for_points
         self.colors = colors
@@ -277,6 +496,16 @@ class PointPlotter:
 
     # b. Define a function that plots the previous optimal allocations from the questions
     def plot_the_previous_results(self):
+        """
+        Plots the points for optimal allocation with labels and colors, and sets up the plot 
+        
+        Args: 
+            None
+
+        Returns: 
+            None
+
+        """
         # i. Set up of the figure
         fig = plt.figure(frameon=False, figsize=(6, 6), dpi=100)
         
@@ -288,11 +517,11 @@ class PointPlotter:
         
         # iv. Set the label on the primary y-axis
         ax_A.set_ylabel("$x_2^A$")
-        # v. 
+        # v. Create a secondary x-axis
         temp = ax_A.twinx()
         # vi. Set the label for the secondary y-axis
         temp.set_ylabel("$x_2^B$")
-        # vii. 
+        # vii. Create a secondary x-axis
         ax_B = temp.twiny()
         # ix. Set the label on the secondary x-axis
         ax_B.set_xlabel("$x_1^B$")
@@ -303,11 +532,8 @@ class PointPlotter:
 
         # Plot the limits
         ax_A.plot([0, self.w1bar], [0, 0], lw=2, color='black')
-        #
         ax_A.plot([0, self.w1bar], [self.w2bar, self.w2bar], lw=2, color='black')
-        #
         ax_A.plot([0, 0], [0, self.w2bar], lw=2, color='black')
-        #
         ax_A.plot([self.w1bar, self.w1bar], [0, self.w2bar], lw=2, color='black')
 
         # Set the limits for the primary x-axis
@@ -321,7 +547,6 @@ class PointPlotter:
 
         # Plot the points with the colors and the labels
         for point, label, color in zip(self.points, self.labels_for_points, self.colors):
-            # Make a scatterplot
             ax_A.scatter(*point, color=color, label=label)
 
         # Create a legend
@@ -331,7 +556,30 @@ class PointPlotter:
         plt.show()
 
 class RandomParetoImprovements:
+    """
+    A class used for generating random endowments and plotting the market equilibria in the Edgeworth box
+    
+    Attributes:
+        alpha (float): Preference parameter in the utility function for consumer A.
+        beta (float): Preference parameter in the utility function for consumer B.
+        num_points (int): Number of random endowments which should be generated.
+        omega_A (ndarray): NumPy array of random endowments for the goods for consumer A.
+        omega_B (ndarray): NumPy array of random endowments for the goods for consumer B.
+    """
+
     def __init__(self, seed=69, alpha=1/3, beta=2/3, num_points=50):
+        """
+        Initializes the RandomParetoImprovements instance with parameters, seed, and number of points.
+
+        Args: 
+            seed (int, optional): The seed value for the generation of the random endowments. 
+            alpha (float, optional): Preference parameter for the utility function for consumer A.
+            beta (float, optional): Preference parameter for the utility function for consumer B.
+            num_points (int, optional):
+
+        Returns:
+            None
+        """
         self.alpha = alpha
         self.beta = beta
         self.num_points = num_points
@@ -340,13 +588,34 @@ class RandomParetoImprovements:
         self.omega_B = 1 - self.omega_A  # Total endowment of each good is always 1
     
     def u_A(self, x1, x2):
+        """
+        Calculates utility function for consumer A.
+
+        Args: 
+            x1 (float): The amount of good 1, which is consumed by consumer A.
+            x2 (float): The amount of good 2, which is consumed by consumer A.
+
+        """
         return x1**self.alpha * x2**(1-self.alpha)
 
     def u_B(self, x1, x2):
+        """
+
+
+        """
         return x1**self.beta * x2**(1-self.beta)
 
     def market_equilibrium(self, omega):
+        """
+
+        """
+
         def objective(p):
+            """
+
+
+            """
+
             # Inverse demand functions derived from utility maximization
             xA1_star = self.alpha * (omega[0] + p * omega[1]) / p
             xB1_star = self.beta * ((1 - omega[0]) + p * (1 - omega[1])) / p
@@ -366,7 +635,12 @@ class RandomParetoImprovements:
         
         return xA1_star, xA2_star, xB1_star, xB2_star
 
+    #
     def plot_of_the_random_pareto_improvements(self):
+        """
+        Plots the generated random endowments.
+        """
+
         # Create the figure and the main axis
         fig, ax = plt.subplots(figsize=(8, 8))
 
@@ -397,4 +671,3 @@ class RandomParetoImprovements:
         # Add title and show the plot
         plt.title('Market Equilibrium Allocations in the Edgeworth Box')
         plt.show()
-
