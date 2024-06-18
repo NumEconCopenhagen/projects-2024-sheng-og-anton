@@ -1,17 +1,17 @@
 # Model analysis project
 
-**Group members:**
+**Group members**
 ---
 
 - [Sheng Ye Michael Chen (nsr708)](https://github.com/nsr708), Exercise class 6
 - [Anton Meier Ebsen Jørgensen (lpx972)](https://github.com/AntonEbsen), Exercise class 1
 
-**Introduction:**
+**Introduction**
 ---
 
 Our model project is titled **STEADY STATE IN THE REAL BUSINESS CYCLE MODEL** and it is about finding the steady state values numerically in the Real Business Cycle model (RBC). We make an extension of the RBC model, where the production function is a CES production function instead of the typical Cobb-Douglass production function.
 
-**The structure of the project:**
+**The structure of the project**
 ---
 1. **[Introduction](modelproject.ipynb#introduction):**
 2. **[Model description](modelproject.ipynb#modeldescription):**
@@ -26,12 +26,12 @@ Our model project is titled **STEADY STATE IN THE REAL BUSINESS CYCLE MODEL** an
 11. **[Interactive plot for the Steady State values](modelproject.ipynb#interactiveplot)**:
 12. **[Conclusion](modelproject.ipynb#conclusion)**:
 
-**Instructions:**
+**Instructions**
 ---
 
 The **results** of the model project can be seen from running the notebook: [modelproject.ipynb](modelproject.ipynb).
 
-**Dependencies:** 
+**Dependencies**
 ---
 
 Apart from a standard Anaconda Python 3 installation, the project requires these packages.
