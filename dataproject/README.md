@@ -50,4 +50,3 @@ Apart from a standard Anaconda Python 3 installation, this data project requires
 - **dstapi**: We use the API created by Alessandro Martinello to import the data from Statistikbanken on the Exchange Rates. (Link to the repo: https://github.com/alemartinello/dstapi).
 - **Matplotlib.pyplot**: We use the Matplotlib.pyplot-package to make graphs of the raw data.
 - **Pandas**: We use the Pandas-package for cleaning, storing, and processing the data. 
-- **dataproject.py**: We use the dataproject.py-file to have the classes for our codes. This makes the notebook more neat.
