@@ -6,7 +6,7 @@
 - [Anton Meier Ebsen Jørgensen (lpx972)](https://github.com/AntonEbsen), Exercise Class 1
 
 ## Content
-This repository contains the following
+This repository contains the following four projects:
 
 **[Inaugural Project - Optimal Allocations in the Exchange Economy](./inauguralproject)**
 --- 
