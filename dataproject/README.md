@@ -23,7 +23,7 @@ We apply the **following datasets** to answer our research question:
 ---
 
 We *structure* our data project in this following way:
-0. **[Table of contents](dataproject.ipynb#tableofcontents)**
+- **[Table of contents](dataproject.ipynb#tableofcontents)**
 1. **[Introduction](dataproject.ipynb#introduction)**
 2. **[Research question](dataproject.ipynb#researchquestion)**
 3. **[Data analysis](dataproject.ipynb#dataanalysis)**
