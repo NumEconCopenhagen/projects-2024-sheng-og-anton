@@ -1,6 +1,6 @@
 # sheng-og-anton
 
-**Group members:**
+**Group members**
 ---
 - [Sheng Ye Michael Chen (nsr708)](https://github.com/nsr708), Exercise Class 6
 - [Anton Meier Ebsen Jørgensen (lpx972)](https://github.com/AntonEbsen), Exercise Class 1
