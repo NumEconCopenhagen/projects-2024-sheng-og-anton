@@ -26,9 +26,8 @@ We structure our model project as follows:
 9. **[Code](modelproject.ipynb#code)**
 10. **[Static plot for the Steady State values](modelproject.ipynb#staticplot)**
 11. **[Interactive plot for the Steady State values](modelproject.ipynb#interactiveplot)**
-12. **[An extension of the model](modelproject.ipynb#anextensionofthemodel)**
-13. **[Different parameters](modelproject.ipynb#differentparameters)**
-14. **[Conclusion](modelproject.ipynb#conclusion)**
+12. **[An extension of the model](modelproject.ipynb#extension)**
+13. **[Conclusion](modelproject.ipynb#conclusion)**
 
 **Instructions**
 ---

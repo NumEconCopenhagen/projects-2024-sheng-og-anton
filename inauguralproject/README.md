@@ -21,16 +21,17 @@ Our Inaugural Project is structured as follows:
 3.	**[Question 2](inauguralproject.ipynb#question2)**: We calculate the errors in the market clearing conditions.
 4.	**[Question 3](inauguralproject.ipynb#question3)**: We find the market clearing price to be approximately 0.94.
 5.	**[Question 4](inauguralproject.ipynb#question4)**: For question 4, we assume that consumer A choose her price to maximize her own utility.
-6.	**[Question 4.a](inauguralproject.ipynb#question4a)**: We find the optimal price in the price vector to be , and the optimal allocation is.
-7.	**[Question 4.b](inauguralproject.ipynb#question4b)**: We find that the optimal allocation to be: ($x_{1A}$, $x_{2A}$) = (0.62, 0.64), when no limits on the price.
-8.	**[Question 5](inauguralproject.ipynb#question5)**: For question 5, we assume that consumer A is the market maker.
-9.	**[Question 5.a](inauguralproject.ipynb#question5a)**: We find the optimal allocation: ($x_{1A}$, $x_{2A}$) = (0.56, 0.85) if the allocation is in the pareto improvements.
-10.	**[Question 5.b](inauguralproject.ipynb#question5b)**: We find the optimal allocation ($x_{1A}$, $x_{2A}$) = (0.57, 0.84) under no further restrictions.
-11.	**[Question 6](inauguralproject.ipynb#question6)**: We assume that an utilitarian social planner maximizes the aggregate utility.
-12.	**[Question 6.a](inauguralproject.ipynb#question6a)**: We find the optimal allocation for consumer A: ($x_{1A}$, $x_{2A}$) = (0.33, 0.67)
-13.	**[Question 6b](inauguralproject.ipynb#question6b)**: We compare the previous optimal allocations in [question 3](inauguralproject.ipynb#question3)-[question 6a](inauguralproject.ipynb#question6a).
-14.	**[Question 7](inauguralproject.ipynb#question7)**: We generate random endowments and plot them.
-15.	**[Question 8](inauguralproject.ipynb#question8)**: We plot the market equilibria of the random endowments.  
+6. **[Question 4.a](inauguralproject.ipynb#question4a)**: We find the optimal price in the price vector to be 1.88, and the optimal allocation is ($x_{1A}$, $x_{2A}$) = (0.61, 0.64).
+7. **[Question 4.b](inauguralproject.ipynb#question4b)**: We find that the optimal allocation to be: ($x_{1A}$, $x_{2A}$) = (0.62, 0.64), when there is no limits on the price.
+8. **[Question 5](inauguralproject.ipynb#question5)**: For question 5, we assume that consumer A is the market maker.
+9. **[Question 5.a](inauguralproject.ipynb#question5a)**: We find the optimal allocation: ($x_{1A}$, $x_{2A}$) = (0.56, 0.85) if the allocation is in the set of pareto improvements.
+10. **[Question 5.b](inauguralproject.ipynb#question5b)**: We find the optimal allocation ($x_{1A}$, $x_{2A}$) = (0.58, 0.84) under no further restrictions.
+11. **[Question 6](inauguralproject.ipynb#question6)**: We assume that an utilitarian social planner maximizes the aggregate utility.
+12. **[Question 6.a](inauguralproject.ipynb#question6a)**: We find the optimal allocation for consumer A: ($x_{1A}$, $x_{2A}$) = (0.33, 0.67)
+13. **[Question 6b](inauguralproject.ipynb#question6b)**: We compare the previous optimal allocations in [Question 3](inauguralproject.ipynb#question3)-[Question 6a](inauguralproject.ipynb#question6a) by looking at the pros and cons.
+14. **[Question 7](inauguralproject.ipynb#question7)**: We generate random endowments and plot them.
+15. **[Question 8](inauguralproject.ipynb#question8)**: We plot the market equilibria of the random endowments.  
+16. **[Conclusion](inauguralproject.ipynb#conclusion)**: We conclude the results.
 
 The **results** of the project can be seen from running the notebook: [inauguralproject.ipynb](inauguralproject.ipynb).
 
