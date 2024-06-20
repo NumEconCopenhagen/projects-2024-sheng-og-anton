@@ -1,37 +1,41 @@
 # Model analysis project
 
-**Group members:**
+**Group members**
 ---
 
 - [Sheng Ye Michael Chen (nsr708)](https://github.com/nsr708), Exercise class 6
 - [Anton Meier Ebsen Jørgensen (lpx972)](https://github.com/AntonEbsen), Exercise class 1
 
-**Introduction:**
+**Introduction**
 ---
 
-Our model project is titled **STEADY STATE IN THE REAL BUSINESS CYCLE MODEL** and it is about finding the steady state values numerically in the Real Business Cycle model (RBC). We make an extension of the RBC model, where the production function is a CES production function instead of the typical Cobb-Douglass production function.
+Our model project is titled **STEADY STATE IN THE REAL BUSINESS CYCLE MODEL** and it is about finding the steady state values numerically in the Real Business Cycle model (RBC). The code of the equations in the system are inspired by [Chad Fulton (2015)](https://github.com/ChadFulton/tsa-notebooks/blob/master/estimating_rbc.ipynb), however, we modify the technology equation and production function in the extension of the model. We make an extension of the RBC model, where the production function is a CES production function instead of the typical Cobb-Douglass production function. 
 
-**The structure of the project:**
+**The structure of the project**
 ---
-1. **[Introduction](modelproject.ipynb#introduction):**
-2. **[Model description](modelproject.ipynb#modeldescription):**
-3. **[Steady state equations](modelproject.ipynb#steadystateequation):**
-4. **[Numerical solution](modelproject.ipynb#numericalsolution):**
-5. **[Linear approximations](modelproject.ipynb#linearapproximations):**
-6. **[Log-Linerization](modelproject.ipynb#loglinearization)**:
-7. **[Root finding algorithm](modelproject.ipynb#rootfindingalgorithm)**:
-8. **[The Log-linerized system of equations](modelproject.ipynb#loglinearsystem)**:
-9. **[Code](modelproject.ipynb#code)**:
-10. **[Static plot for the Steady State values](modelproject.ipynb#staticplot)**:
-11. **[Interactive plot for the Steady State values](modelproject.ipynb#interactiveplot)**:
-12. **[Conclusion](modelproject.ipynb#conclusion)**:
+We structure our model project as follows:
+- **[Table of contents](modelproject.ipynb#tableofcontents)**
+1. **[Introduction](modelproject.ipynb#introduction)**
+2. **[Model description](modelproject.ipynb#modeldescription)**
+3. **[Steady state equations](modelproject.ipynb#steadystateequations)**
+4. **[Numerical solution](modelproject.ipynb#numericalsolution)**
+5. **[Linear approximations](modelproject.ipynb#linearapproximations)**
+6. **[Log-Linerization](modelproject.ipynb#loglinearization)**
+7. **[Root finding algorithm](modelproject.ipynb#rootfindingalgorithm)**
+8. **[The Log-linerized system of equations](modelproject.ipynb#loglinearsystem)**
+9. **[Code](modelproject.ipynb#code)**
+10. **[Static plot for the Steady State values](modelproject.ipynb#staticplot)**
+11. **[Interactive plot for the Steady State values](modelproject.ipynb#interactiveplot)**
+12. **[An extension of the model](modelproject.ipynb#anextensionofthemodel)**
+13. **[Different parameters](modelproject.ipynb#differentparameters)**
+14. **[Conclusion](modelproject.ipynb#conclusion)**
 
-**Instructions:**
+**Instructions**
 ---
 
 The **results** of the model project can be seen from running the notebook: [modelproject.ipynb](modelproject.ipynb).
 
-**Dependencies:** 
+**Dependencies**
 ---
 
 Apart from a standard Anaconda Python 3 installation, the project requires these packages.
