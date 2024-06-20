@@ -9,10 +9,11 @@
 **Introduction**
 ---
 
-Our model project is titled **STEADY STATE IN THE REAL BUSINESS CYCLE MODEL** and it is about finding the steady state values numerically in the Real Business Cycle model (RBC). The code of the equations in the system are inspired by Chad Fulton (2015) (https://github.com/ChadFulton/tsa-notebooks/blob/master/estimating_rbc.ipynb), however, we modify the technology equation and production function in the extension of the model. We make an extension of the RBC model, where the production function is a CES production function instead of the typical Cobb-Douglass production function. 
+Our model project is titled **STEADY STATE IN THE REAL BUSINESS CYCLE MODEL** and it is about finding the steady state values numerically in the Real Business Cycle model (RBC). The code of the equations in the system are inspired by [Chad Fulton (2015)](https://github.com/ChadFulton/tsa-notebooks/blob/master/estimating_rbc.ipynb), however, we modify the technology equation and production function in the extension of the model. We make an extension of the RBC model, where the production function is a CES production function instead of the typical Cobb-Douglass production function. 
 
 **The structure of the project**
 ---
+We structure our model project as follows:
 - **[Table of contents](modelproject.ipynb#tableofcontents)**
 1. **[Introduction](modelproject.ipynb#introduction)**
 2. **[Model description](modelproject.ipynb#modeldescription)**
