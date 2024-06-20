@@ -21,7 +21,7 @@ Our Inaugural Project is structured as follows:
 3.	**[Question 2](inauguralproject.ipynb#question2)**: We calculate the errors in the market clearing conditions.
 4.	**[Question 3](inauguralproject.ipynb#question3)**: We find the market clearing price to be approximately 0.94.
 5.	**[Question 4](inauguralproject.ipynb#question4)**: For question 4, we assume that consumer A choose her price to maximize her own utility.
-*	**[Question 4.a](inauguralproject.ipynb#question4a)**: We find the optimal price in the price vector to be , and the optimal allocation is.
+  - **[Question 4.a](inauguralproject.ipynb#question4a)**: We find the optimal price in the price vector to be , and the optimal allocation is.
 * **[Question 4.b](inauguralproject.ipynb#question4b)**: We find that the optimal allocation to be: ($x_{1A}$, $x_{2A}$) = (0.62, 0.64), when no limits on the price.
 6.	**[Question 5](inauguralproject.ipynb#question5)**: For question 5, we assume that consumer A is the market maker.
 * **[Question 5.a](inauguralproject.ipynb#question5a)**: We find the optimal allocation: ($x_{1A}$, $x_{2A}$) = (0.56, 0.85) if the allocation is in the pareto improvements.
