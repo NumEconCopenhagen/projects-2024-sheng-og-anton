@@ -94,24 +94,19 @@ class RealBusinessCycleModelClass(object):
         
         # iii. We return a NumPy array with the five equations in the model
         return np.r_[
-            self.log_first_order_condition(next_period_log_consumption, next_period_log_labor,
-                next_period_log_capital),
+            self.log_first_order_condition(next_period_log_consumption, next_period_log_labor, next_period_log_capital),
  
-            self.log_euler_equation(
-                next_period_log_consumption, next_period_log_labor, next_period_log_capital, 
+            self.log_euler_equation(next_period_log_consumption, next_period_log_labor, next_period_log_capital, 
                 next_period_log_consumption),
   
-            self.log_production_function(
-                next_period_log_output, next_period_log_labor, next_period_log_capital),
+            self.log_production_function(next_period_log_output, next_period_log_labor, next_period_log_capital),
       
             self.log_resource_constraint(
                 next_period_log_output, next_period_log_consumption, next_period_log_investment),
            
-            self.log_capital_accumulation(
-                next_period_log_capital, next_period_log_investment, next_period_log_capital),
+            self.log_capital_accumulation(next_period_log_capital, next_period_log_investment, next_period_log_capital),
            
-            self.log_labor_leisure_constraint(
-                next_period_log_labor, next_period_log_leisure),
+            self.log_labor_leisure_constraint(next_period_log_labor, next_period_log_leisure),
         ]
     
     # c. We define the first equation in the model, which is the FOC (1)
@@ -198,9 +193,8 @@ class RealBusinessCycleModelClass(object):
         Returns:
             (float): The value of the logged capital accumulation equation.
         """
-        return (
-            next_period_log_capital -
-            np.log(np.exp(this_period_log_investment) + (1 - self.depreciation_rate) * np.exp(this_period_log_capital)))
+        return (next_period_log_capital -
+                np.log(np.exp(this_period_log_investment) + (1 - self.depreciation_rate) * np.exp(this_period_log_capital)))
     
     # h. Define the sixth equation in the RBC model, which is the labor-leisure constraint
     def log_labor_leisure_constraint(self, next_period_log_labor, next_period_log_leisure):
