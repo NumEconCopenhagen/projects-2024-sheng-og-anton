@@ -240,10 +240,10 @@ class RealBusinessCycleModelClass(object):
 # 4. Next, we need to make a class that calculates the numerical solution to the RBC model
 class NumericalSolutionClass(RealBusinessCycleModelClass):
     """
-    Class which calculates the numerical solution to the Real Business Cycle model.
+    Class which calculates the numerical solution to the simple Real Business Cycle model.
 
     Inherits from:
-        RealBusinessCycleModel: This class defines the equations of the RBC model.
+        RealBusinessCycleModelClass: This class defines the equations of the RBC model.
     """
     # a. Define the numeric solution for the steady-state values
     def steady_state_numeric(self):
@@ -275,8 +275,6 @@ class SteadyStatePlotClass:
     def __init__(self, variables, steady_state_values):
         """
         Initializes the SteadyStatePlot class with the variables and the steady state values.
-
-
         """
         self.variables = variables
         self.steady_state_values = steady_state_values
@@ -309,14 +307,22 @@ class SteadyStatePlotClass:
 # 6. Define the Interactive Model class
 class RBCModelInteractiveClass:
     """
+    A class which creates an interactive plot for the steady state values with changing parameter values in the RBC model 
 
-
+    Attributes:
+        model (NumericalSolutionClass): 
+        variables (list): A list of the variable names in the model.
+            Output (str): The amount which is produced by the firms.
+            Consumption (str): The amount which is consumed by the households.
+            Investment (str): The amount which is invested in new capital.
+            Labor (str): How much of their time, households spend on labor.
+            Leisure (str): How of their time, households spend on leisure.
+            Capital (str): The capital stock in the firms.
     """
     # a. Define the initializer method used when instances are created in the notebook
     def __init__(self):
         """
-
-
+        Initializes the RBCModelInteractiveClass with the parameters and variables.
         """
         # i. Define the parameters of the model [beta, disutility from labor, depreciation rate, capital share, technology] 
         self.model = NumericalSolutionClass(params=[0.9, 3, 0.1, 1/3, 1])
@@ -326,8 +332,18 @@ class RBCModelInteractiveClass:
     # b. Define a method that updates the values of the parameters
     def update_parameters_and_recompute(self, params):
         """
+        Updates the parameters of the RBC model and computes the steady state values.
 
-
+        Args:
+            params (list): A list of the parameters of the model, which will be updated.
+                discount_rate (float): The preference of the households for present consumption.
+                disutility_from_labor (float): The marginal cost of working more for the households.
+                depreciation_rate (float): How quickly the capital dimishes.
+                capital_share (float): The share of output which is produced because of capital.
+                technology (float): The production technologies which the firms have acces to.  
+        
+        Returns:
+            (pd.DataFrame): A Pandas DataFrame which contains the steady state values.
         """
         # i. Update the parameters in the model
         self.model.update(params)
@@ -341,8 +357,14 @@ class RBCModelInteractiveClass:
     # c. Define a method that sets up the interactive plot
     def interactive_plot(self, discount_rate, disutility_from_labor, depreciation_rate, capital_share, technology):
         """
+        Sets up and shows the interactive plot for the steady state values for changing parameter values of the RBC model.
 
-
+        Args: params (list): A list which contains the parameters of the simple RBC model.
+            discount_rate (float): The preference of the households for present consumption.
+            disutility_from_labor (float): The marginal cost of working more for the households.
+            depreciation_rate (float): How quickly the capital dimishes.
+            capital_share (float): The share of output which is produced because of capital.
+            technology (float): The production technologies which the firms have acces to.
         """
         # i. Define the five parameters
         params = [discount_rate, disutility_from_labor, depreciation_rate, capital_share, technology]
@@ -356,8 +378,7 @@ class RBCModelInteractiveClass:
     # d. Define a method that plots the interactive plot
     def create_interactive_plot(self):
         """
-
-
+        Creates and shows the interactive plot, where the parameter values can be adjusted with sliders.
         """
         # i. Make a slider for the discount rate parameter
         discount_rate_slider = FloatSlider(min=0.1, max=1.0, step=0.1, value=0.9, description='discount_rate')
@@ -377,19 +398,26 @@ class RBCModelInteractiveClass:
                  depreciation_rate=depreciation_rate_slider,
                  capital_share=capital_share_slider,
                  technology=technology_slider) 
-    
 
-# 6. Replacing production function with CES function and adding parameter rho
-# Define the RBC_CES class
+# 6. Replacing production function with CES function and adding substitution parameter rho
 class RBCCESClass(object):
     """
+    A class for the RBC model with a CES production function.
 
-
+    Attributes:
+        k_params (int): The number of parameters in the RBC model.
+        k_variables (int): The number of variables in the RBC model.
+        discount_rate (float): The preference of the households for present consumption.
+        disutility_from_labor (float): The marginal cost of working more for the households.
+        depreciation_rate (float): How quickly the capital dimishes.
+        capital_share (float): The share of output which is produced because of capital.
+        technology (float): The production technologies which the firms have acces to.
+        rho (float): The substitution parameter.
     """
     # a. Define params and variables
     def __init__(self, params=None):
         """
-
+        Initializes the RBCCESClass with the parameters of the RBC model with a CES production function.
 
         """
         # i. We define the number of parameters
@@ -400,12 +428,19 @@ class RBCCESClass(object):
         if params is not None:
             self.update(params)
     
-    
     # a. Create a new class that updates the elements in the tuple
     def update(self, params):
         """
+        Updates the parameters of the RBC model with CES production function.
 
-
+        Args:
+            params (tuple): A tuple which contains the paramters of the RBC model with a CES production function.
+                discount_rate (float): The preference of the households for present consumption.
+                disutility_from_labor (float): The marginal cost of working more for the households.
+                depreciation_rate (float): How quickly the capital dimishes.
+                capital_share (float): The share of output which is produced because of capital.
+                technology (float): The production technologies which the firms have acces to.
+                rho (float): The substitution parameter.
         """
         # i. The first element in the tuple should be the discount rate, beta
         self.discount_rate = params[0]
@@ -423,8 +458,14 @@ class RBCCESClass(object):
     # b. Define the root-evaluated variables for both period t and period t+1
     def root_evaluated_variables(self, next_period_log_variables, this_period_log_variables):
         """
+        Defines the root-evaluated variables for period t and period t+1.
 
-
+        Args:
+            next_period_log_variables (list): The logged variables for period t+1.
+            this_period_log_variables (list): The logged variables for period t.
+        
+        Returns:
+            (np.ndarray): A NumPy array which contains the evaluated the roots for the equations of the RBC model with a CES production function.
         """
         # i. The root-evaluated variables for period t
         (next_period_log_output, next_period_log_consumption, next_period_log_investment,
@@ -463,8 +504,15 @@ class RBCCESClass(object):
     def log_first_order_condition(self, next_period_log_consumption, next_period_log_labor,
                        next_period_log_capital):
         """
+        Defines the logged first order condition of the RBC model with a CES production function.
 
-
+        Args:
+            next_period_log_consumption (float): The logged consumption in period t+1. 
+            next_period_log_labor (float): The logged labor in period t+1.
+            next_period_log_capital (float): The logged capital in period t+1.
+        
+        Returns:
+            (float): The first-order condition.
         """
         return (
             np.log(self.disutility_from_labor) +
@@ -478,8 +526,13 @@ class RBCCESClass(object):
     def log_euler_equation(self, next_period_log_consumption, next_period_log_labor,
                             next_period_log_capital, this_period_log_consumption):
         """
-
+        Defines the consumption Euler equation for the RBC model with a CES production function.
         
+        Args: 
+            next_period_log_consumption (float): The logged consumption in period t+1.
+            next_period_log_labor (float): The logged labor in period t+1.
+            next_period_log_capital (float): The logged capital in period t+1.
+            this_period_log_consumption (float): The logged consumption period t.
         """
         return (
             -this_period_log_consumption -
@@ -496,8 +549,15 @@ class RBCCESClass(object):
     # e. Define the third equation for the extension of the RBC model, which is the CES production function
     def log_ces_function(self, next_period_log_output, next_period_log_labor, next_period_log_capital):
          """
+        Defines the CES production function equation for the RBC model.
 
-
+        Args:
+            next_period_log_output (float): The logged output in period t+1.
+            next_period_log_labor (float): The logged labor in period t+1.
+            next_period_log_capital (float): The logged cpaital in period t+1.
+        
+        Returns:
+            (float): The CES production function which have been evaluated.
          """
          return ( next_period_log_output - np.log(
             (self.capital_share * np.exp(self.rho * next_period_log_capital) +
@@ -509,8 +569,15 @@ class RBCCESClass(object):
     def log_resource_constraint(self, next_period_log_output, next_period_log_consumption,
                                           next_period_log_investment):
         """
+        Defines the resource constraint equation for the RBC model with a CES production function.
 
+        Args:
+            next_period_log_output (float): Logged output in period t+1.
+            next_period_log_labor (float): Logged labor in period t+1.
+            next_period_log_capital (float): Logged capital in period t+1.
 
+        Returns:
+            (float): The CES production function which have been evaluated.
         """
         return (
             next_period_log_output -
@@ -520,8 +587,15 @@ class RBCCESClass(object):
     # g. Define the fifth equation in the RBC model, which is the capital accumulation
     def log_capital_accumulation(self, next_period_log_capital, this_period_log_investment, this_period_log_capital):
         """
-
+        Defines the logged capital accumulation equation for the RBC model with a CES production function.
         
+        Args:
+            next_period_log_capital (float): Logged capital in period t+1.
+            this_period_log_investment (float): Logged investment in period t.
+            this_period_log_capital (float): Logged capital in period t.
+        
+        Returns:
+            (float): The logged capital accumulation equation which have been evaluated.
         """
         return (
             next_period_log_capital -
@@ -531,25 +605,36 @@ class RBCCESClass(object):
     # h. Define the sixth equation in the RBC model, which is the labor-leisure constraint
     def log_labor_leisure_constraint(self, next_period_log_labor, next_period_log_leisure):
         """
+        Defines the logged labor-leisure constraint equation for the RBC model with a CES production function.
 
+        Args:
+            next_period_log_labor (float): Logged labor in period t+1.
+            next_period_log_leisure (float): Logged leisure in period t+1.
 
+        Returns:
+            (float): The logged labor-leisure constraint equation which have been evaluated.
         """
         return (
             -np.log(np.exp(next_period_log_labor) + np.exp(next_period_log_leisure))
         )
 
-
 # 4. make a class that calculates the numerical solution to the RBC model
 class NumericalSolutionCESClass(RBCCESClass):
     """
+    A class which numerically calculates the steady state for a RBC model with a CES production function.
 
-
+    Inherits from:
+        RBCCESClass: This class contains the equations for the RBC model with a CES production function. 
     """
     def steady_state_numeric(self):
             """
+            Calculates the numerical steady state values for the RBC model with a CES production function.
 
+            It does so by setting up the starting parameters for the variables defines a function.
+            In this function, the roots should be evaluated, and then a root-finding algorithm is used.
 
-
+            Returns:
+                (np.ndarray): A Numpy array of steady state values for the variables.
             """
             # i. Setup the starting parameters for the variables
             start_log_variable = [0.5] * self.k_variables
@@ -572,24 +657,33 @@ class SteadyStatePlotCESClass:
             Output (str): The amount which is produced by the firms.
             Consumption (str): The amount which is consumed by the households.
             Investment (str): The amount which is invested in new capital.
-            Labor (str): How much of the time, households spend on labor.
-            Leisure (str): 
-            Capital (str):
+            Labor (str): How much of their time, households spend on labor.
+            Leisure (str): How of their time, households spend on leisure.
+            Capital (str): The capital stock in the firms.
         steady_state_values (pd.DataFrame): A DataFrame that contains the steady state values.
     """
     # a. Define the variables and steady state
     def __init__(self, variables, steady_state_values):
         """
+        Initialize the SteadyStatePlotCESClass with variables.
 
-
+        Args:
+            variables (list): A list of variable names.
+                Output (str): The amount which is produced by the firms.
+                Consumption (str): The amount which is consumed by the households.
+                Investment (str): The amount which is invested in new capital.
+                Labor (str): How much of their time, households spend on labor.
+                Leisure (str): How of their time, households spend on leisure.
+                Capital (str): The capital stock in the firms.
+            steady_state_values (pd.DataFrame): A Pandas DataFrame which contains the steady state values.
         """
         self.variables = variables
         self.steady_state_values = steady_state_values
+
     # b. Define a method that plots the steady state values
     def simpleplot_ces(self):
         """
-
-
+        Plots the steady state values for the RBC model with a CES production function.
         """
         # i. Sets the size of the figure and the bar diagram with inputs
         plt.figure(figsize=(10, 6))
@@ -599,12 +693,13 @@ class SteadyStatePlotCESClass:
         plt.xlabel('Variables')
         plt.ylabel('Steady State values')
 
-        # iii. Rotate the ticks and add grids
+        # iii. Rotate the ticks and add grids to the plot
         plt.xticks(rotation=45)
         plt.grid(axis='y', linestyle='--')
 
         # iv. Set the y-axis limit dynamically
         max_value = max(self.steady_state_values['value'])
         plt.ylim(0, max_value * 1.1)  # Adjust ylim to give some extra space
+        
         # v. Show the plot
         plt.show()
