@@ -80,43 +80,38 @@ class RealBusinessCycleModelClass(object):
                 this_period_log_labor (float): The logarithm of labor in period t.
                 this_period_log_leisure (float): The logarithm of leisure in period t.
                 this_period_log_capital (float): The logarithm of capital in period t.
+
         Returns:
             (np.ndarray): A NumPy array which contains the variables which are root-evaluated.
         """
-        # i. The root-evaluated variables for period t
+        # i. The root-evaluated variables for period t+1
         (next_period_log_output, next_period_log_consumption, next_period_log_investment,
          next_period_log_labor, next_period_log_leisure, next_period_log_capital) = next_period_log_variables
         
-        # ii. The root-evaluated variables for period t+1
+        # ii. The root-evaluated variables for period t
         (this_period_log_output, this_period_log_consumption, this_period_log_investment, this_period_log_labor,
          this_period_log_leisure, this_period_log_capital) = this_period_log_variables
         
         # iii. We return a NumPy array with the five equations in the model
         return np.r_[
             self.log_first_order_condition(next_period_log_consumption, next_period_log_labor,
-                next_period_log_capital
-            ),
+                next_period_log_capital),
  
             self.log_euler_equation(
                 next_period_log_consumption, next_period_log_labor, next_period_log_capital, 
-                next_period_log_consumption
-            ),
+                next_period_log_consumption),
   
             self.log_production_function(
-                next_period_log_output, next_period_log_labor, next_period_log_capital
-            ),
+                next_period_log_output, next_period_log_labor, next_period_log_capital),
       
             self.log_resource_constraint(
-                next_period_log_output, next_period_log_consumption, next_period_log_investment
-            ),
+                next_period_log_output, next_period_log_consumption, next_period_log_investment),
            
             self.log_capital_accumulation(
-                next_period_log_capital, next_period_log_investment, next_period_log_capital
-            ),
+                next_period_log_capital, next_period_log_investment, next_period_log_capital),
            
             self.log_labor_leisure_constraint(
-                next_period_log_labor, next_period_log_leisure
-            ),
+                next_period_log_labor, next_period_log_leisure),
         ]
     
     # c. We define the first equation in the model, which is the FOC (1)
@@ -133,13 +128,8 @@ class RealBusinessCycleModelClass(object):
         Returns:
             (float): The logarithm of the first-order condition equation.
         """
-        return (
-            np.log(self.disutility_from_labor) +
-            next_period_log_consumption -
-            np.log(1 - self.capital_share) -
-            self.technology -
-            self.capital_share * (next_period_log_capital - next_period_log_labor)
-        )
+        return (np.log(self.disutility_from_labor) + next_period_log_consumption - np.log(1 - self.capital_share) -
+                self.technology - self.capital_share * (next_period_log_capital - next_period_log_labor))
     
     # d. We define the second equation in the RBC model, which is the consumption Euler equation (2)
     def log_euler_equation(self, next_period_log_consumption, next_period_log_labor,
@@ -155,17 +145,12 @@ class RealBusinessCycleModelClass(object):
         Returns:
             (float): The value of the logged consumption Euler equation.
         """
-        return (
-            -this_period_log_consumption -
-            np.log(self.discount_rate) +
-            next_period_log_consumption -
+        return (-this_period_log_consumption - np.log(self.discount_rate) + next_period_log_consumption -
             np.log(
                 (self.capital_share *
                  np.exp((1 - self.capital_share) * next_period_log_labor) /
                  np.exp((1 - self.capital_share) * next_period_log_capital)) +
-                (1 - self.depreciation_rate)
-            )
-        )
+                (1 - self.depreciation_rate)))
     
     # e. Define the third equation in the RBC model, which is the Cobb-Douglass production function
     def log_production_function(self, next_period_log_output, next_period_log_labor, next_period_log_capital):
@@ -180,9 +165,8 @@ class RealBusinessCycleModelClass(object):
         Returns:
             (float): The value of the logged Cobb-Douglas production.
         """
-        return ( next_period_log_output - (self.capital_share * next_period_log_capital + (1 - self.capital_share) 
-         * next_period_log_labor)
-         )
+        return (next_period_log_output - (self.capital_share * next_period_log_capital + (1 - self.capital_share) 
+                * next_period_log_labor))
     
     # f. Define the fourth equation in the RBC model, which is the resource constraint for the economy
     def log_resource_constraint(self, next_period_log_output, next_period_log_consumption,
@@ -198,10 +182,8 @@ class RealBusinessCycleModelClass(object):
         Returns:
             (float): The value of the logged resource constraint equation.
         """
-        return (
-            next_period_log_output -
-            np.log(np.exp(next_period_log_consumption) + np.exp(next_period_log_investment))
-        )
+        return (next_period_log_output -
+                np.log(np.exp(next_period_log_consumption) + np.exp(next_period_log_investment)))
     
     # g. Define the fifth equation in the RBC model, which is the capital accumulation
     def log_capital_accumulation(self, next_period_log_capital, this_period_log_investment, this_period_log_capital):
@@ -218,8 +200,7 @@ class RealBusinessCycleModelClass(object):
         """
         return (
             next_period_log_capital -
-            np.log(np.exp(this_period_log_investment) + (1 - self.depreciation_rate) * np.exp(this_period_log_capital))
-        )
+            np.log(np.exp(this_period_log_investment) + (1 - self.depreciation_rate) * np.exp(this_period_log_capital)))
     
     # h. Define the sixth equation in the RBC model, which is the labor-leisure constraint
     def log_labor_leisure_constraint(self, next_period_log_labor, next_period_log_leisure):
@@ -233,9 +214,7 @@ class RealBusinessCycleModelClass(object):
         Returns:
             (float): The value of the logged labor-leisure constraint.
         """
-        return (
-            -np.log(np.exp(next_period_log_labor) + np.exp(next_period_log_leisure))
-        )
+        return (-np.log(np.exp(next_period_log_labor) + np.exp(next_period_log_leisure)))
 
 # 4. Next, we need to make a class that calculates the numerical solution to the RBC model
 class NumericalSolutionClass(RealBusinessCycleModelClass):
@@ -310,7 +289,7 @@ class RBCModelInteractiveClass:
     A class which creates an interactive plot for the steady state values with changing parameter values in the RBC model 
 
     Attributes:
-        model (NumericalSolutionClass): 
+        model (NumericalSolutionClass): This class numerically calculates the steady state values in the RBC model.
         variables (list): A list of the variable names in the model.
             Output (str): The amount which is produced by the firms.
             Consumption (str): The amount which is consumed by the households.
@@ -348,9 +327,8 @@ class RBCModelInteractiveClass:
         # i. Update the parameters in the model
         self.model.update(params)
         # ii. Create a variable that stores the steady state values in a pandas dataframe
-        steady_state_values = pd.DataFrame({
-            'Steady state value': self.model.steady_state_numeric()
-        }, index=self.variables).round(2)
+        steady_state_values = pd.DataFrame({'Steady state value': self.model.steady_state_numeric()
+                                }, index=self.variables).round(2)
         # iii. Return the DataFrame with the steady state values
         return steady_state_values
     
@@ -393,11 +371,11 @@ class RBCModelInteractiveClass:
         
         # vi. Combine the sliders and plot the interactive plot
         interact(self.interactive_plot, 
-                 discount_rate=discount_rate_slider,
-                 disutility_from_labor=disutility_from_labor_slider,
-                 depreciation_rate=depreciation_rate_slider,
-                 capital_share=capital_share_slider,
-                 technology=technology_slider) 
+                 discount_rate = discount_rate_slider,
+                 disutility_from_labor = disutility_from_labor_slider,
+                 depreciation_rate = depreciation_rate_slider,
+                 capital_share = capital_share_slider,
+                 technology = technology_slider) 
 
 # 6. Replacing production function with CES function and adding substitution parameter rho
 class RBCCESClass(object):
@@ -418,7 +396,6 @@ class RBCCESClass(object):
     def __init__(self, params=None):
         """
         Initializes the RBCCESClass with the parameters of the RBC model with a CES production function.
-
         """
         # i. We define the number of parameters
         self.k_params = 5
@@ -454,73 +431,71 @@ class RBCCESClass(object):
         self.technology = params[4]
         # vi. The sixth element is the substitution parameter, rho
         self.rho = params[5]
-   
+
     # b. Define the root-evaluated variables for both period t and period t+1
     def root_evaluated_variables(self, next_period_log_variables, this_period_log_variables):
         """
         Defines the root-evaluated variables for period t and period t+1.
 
         Args:
-            next_period_log_variables (list): The logged variables for period t+1.
-            this_period_log_variables (list): The logged variables for period t.
-        
+            next_period_log_variables (tuple): The tuple of the logged variables for period t+1.
+                next_period_log_output (float): The logarithm of output in period t+1.
+                next_period_log_consumption (float): The logarithm of consumption in period t+1.
+                next_period_log_investment (float): The logarithm of investment in period t+1.
+                next_period_log_labor (float): The logarithm of labor in period t+1.
+                next_period_log_leisure (float): The logarithm of leisure in period t+1.
+                next_period_log_capital (float): The logarithm of capital in period t+1.
+
+            this_period_log_variables (tuple): The tuple of the logged variables for period t.
+                this_period_log_output (float): The logarithm of output in period t.
+                this_period_log_consumption (float): The logarithm of contumption in period t.
+                this_period_log_investment (float): The logarithm of investment in period t.
+                this_period_log_labor (float): The logarithm of labor in period t.
+                this_period_log_leisure (float): The logarithm of leisure in period t.
+                this_period_log_capital (float): The logarithm of capital in period t.
+
         Returns:
             (np.ndarray): A NumPy array which contains the evaluated the roots for the equations of the RBC model with a CES production function.
         """
         # i. The root-evaluated variables for period t
         (next_period_log_output, next_period_log_consumption, next_period_log_investment,
          next_period_log_labor, next_period_log_leisure, next_period_log_capital) = next_period_log_variables
-        
+
         # ii. The root-evaluated variables for period t+1
         (this_period_log_output, this_period_log_consumption, this_period_log_investment, this_period_log_labor,
          this_period_log_leisure, this_period_log_capital) = this_period_log_variables
-        
+
         # iii. We return a NumPy array with the five equations in the model
         return np.r_[
             self.log_first_order_condition(
-                next_period_log_consumption, next_period_log_labor,
-                next_period_log_capital
-            ),
+                next_period_log_consumption, next_period_log_labor, next_period_log_capital),
             self.log_euler_equation(
-                next_period_log_consumption, next_period_log_labor,
-                next_period_log_capital, next_period_log_consumption
-            ),
+                next_period_log_consumption, next_period_log_labor, 
+                next_period_log_capital, next_period_log_consumption),
             self.log_ces_function(
-                next_period_log_output, next_period_log_labor, next_period_log_capital
-            ),
+                next_period_log_output, next_period_log_labor, next_period_log_capital),
             self.log_resource_constraint(
-                next_period_log_output, next_period_log_consumption,
-                next_period_log_investment
-            ),
+                next_period_log_output, next_period_log_consumption, next_period_log_investment),
             self.log_capital_accumulation(
-                next_period_log_capital, next_period_log_investment, next_period_log_capital
-            ),
-            self.log_labor_leisure_constraint(
-                next_period_log_labor, next_period_log_leisure
-            ),
-        ]
+                next_period_log_capital, next_period_log_investment, next_period_log_capital),
+            self.log_labor_leisure_constraint(next_period_log_labor, next_period_log_leisure)]
     
     # c. We define the first equation in the model, which is the FOC
-    def log_first_order_condition(self, next_period_log_consumption, next_period_log_labor,
-                       next_period_log_capital):
+    def log_first_order_condition(self, next_period_log_consumption, next_period_log_labor, next_period_log_capital):
         """
         Defines the logged first order condition of the RBC model with a CES production function.
 
         Args:
-            next_period_log_consumption (float): The logged consumption in period t+1. 
+            next_period_log_consumption (float): The logged consumption in period t+1.
             next_period_log_labor (float): The logged labor in period t+1.
             next_period_log_capital (float): The logged capital in period t+1.
         
         Returns:
-            (float): The first-order condition.
+            (float): The logged first-order condition equation which have been evaluated.
         """
         return (
-            np.log(self.disutility_from_labor) +
-            next_period_log_consumption -
-            np.log(1 - self.capital_share) -
-            self.technology -
-            self.capital_share * (next_period_log_capital - next_period_log_labor)
-        )
+            np.log(self.disutility_from_labor) + next_period_log_consumption - np.log(1 - self.capital_share) 
+            - self.technology - self.capital_share * (next_period_log_capital - next_period_log_labor))
     
     # d. We define the second equation in the RBC model, which is the consumption Euler equation
     def log_euler_equation(self, next_period_log_consumption, next_period_log_labor,
@@ -534,18 +509,12 @@ class RBCCESClass(object):
             next_period_log_capital (float): The logged capital in period t+1.
             this_period_log_consumption (float): The logged consumption period t.
         """
-        return (
-            -this_period_log_consumption -
-            np.log(self.discount_rate) +
-            next_period_log_consumption -
-            np.log(
-                (self.capital_share * 
-                 np.exp((1 - self.capital_share) * next_period_log_labor) /
-                 np.exp((1 - self.capital_share) * next_period_log_capital)) +
-                (1 - self.depreciation_rate)
-            )
-        )
-    
+        return(
+            -this_period_log_consumption - np.log(self.discount_rate) + next_period_log_consumption -
+            np.log((self.capital_share * np.exp((1 - self.capital_share) * next_period_log_labor) /
+                np.exp((1 - self.capital_share) * next_period_log_capital)) +
+                (1 - self.depreciation_rate)))
+
     # e. Define the third equation for the extension of the RBC model, which is the CES production function
     def log_ces_function(self, next_period_log_output, next_period_log_labor, next_period_log_capital):
          """
@@ -559,11 +528,8 @@ class RBCCESClass(object):
         Returns:
             (float): The CES production function which have been evaluated.
          """
-         return ( next_period_log_output - np.log(
-            (self.capital_share * np.exp(self.rho * next_period_log_capital) +
-            (1 - self.capital_share) * np.exp(self.rho * next_period_log_labor)) ** (1 / self.rho)
-        )
-         )
+         return (next_period_log_output - np.log((self.capital_share * np.exp(self.rho * next_period_log_capital) +
+            (1 - self.capital_share) * np.exp(self.rho * next_period_log_labor)) ** (1 / self.rho)))
 
     # f. Define the fourth equation in the RBC model, which is the resource constraint for the economy
     def log_resource_constraint(self, next_period_log_output, next_period_log_consumption,
@@ -579,11 +545,9 @@ class RBCCESClass(object):
         Returns:
             (float): The CES production function which have been evaluated.
         """
-        return (
-            next_period_log_output -
-            np.log(np.exp(next_period_log_consumption) + np.exp(next_period_log_investment))
-        )
-    
+        return (next_period_log_output -
+                np.log(np.exp(next_period_log_consumption) + np.exp(next_period_log_investment)))
+
     # g. Define the fifth equation in the RBC model, which is the capital accumulation
     def log_capital_accumulation(self, next_period_log_capital, this_period_log_investment, this_period_log_capital):
         """
@@ -597,10 +561,8 @@ class RBCCESClass(object):
         Returns:
             (float): The logged capital accumulation equation which have been evaluated.
         """
-        return (
-            next_period_log_capital -
-            np.log(np.exp(this_period_log_investment) + (1 - self.depreciation_rate) * np.exp(this_period_log_capital))
-        )
+        return (next_period_log_capital -
+                np.log(np.exp(this_period_log_investment) + (1 - self.depreciation_rate) * np.exp(this_period_log_capital)))
     
     # h. Define the sixth equation in the RBC model, which is the labor-leisure constraint
     def log_labor_leisure_constraint(self, next_period_log_labor, next_period_log_leisure):
@@ -614,9 +576,7 @@ class RBCCESClass(object):
         Returns:
             (float): The logged labor-leisure constraint equation which have been evaluated.
         """
-        return (
-            -np.log(np.exp(next_period_log_labor) + np.exp(next_period_log_leisure))
-        )
+        return (-np.log(np.exp(next_period_log_labor) + np.exp(next_period_log_leisure)))
 
 # 4. make a class that calculates the numerical solution to the RBC model
 class NumericalSolutionCESClass(RBCCESClass):
@@ -643,9 +603,9 @@ class NumericalSolutionCESClass(RBCCESClass):
             root_evaluated_variables = lambda log_variable: self.root_evaluated_variables(log_variable, log_variable)
 
             # iii. Apply the root-finding algorithm
-            solution = optimize.root(root_evaluated_variables, start_log_variable)
-            
-            return np.exp(solution.x)
+            solution_to_rbc_model_ces = optimize.root(root_evaluated_variables, start_log_variable)
+
+            return np.exp(solution_to_rbc_model_ces.x)
 
 # 5. Create a class that plot the steady state in the RBC model with a CES production function
 class SteadyStatePlotCESClass:
@@ -700,6 +660,6 @@ class SteadyStatePlotCESClass:
         # iv. Set the y-axis limit dynamically
         max_value = max(self.steady_state_values['value'])
         plt.ylim(0, max_value * 1.1)  # Adjust ylim to give some extra space
-        
+
         # v. Show the plot
         plt.show()
