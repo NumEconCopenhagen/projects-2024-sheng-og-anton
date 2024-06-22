@@ -22,4 +22,8 @@ We numerically solve the simple Real Business Cycle Model (RBC-model), where tec
 
 **[Exam Project - ](./examproject)**
 ---
-It is about...
+It is about the production economy with CO2 taxation (Problem 1), Career choice model (problem 2), and Barycentric interpolation (problem 3).
+
+## Use of AI tools
+---
+We have in all of these projects used AI tools (ChatGPT 4o) to optimize our code and to get inspired when we felt stuck as a result of bugs.  
