@@ -25,4 +25,4 @@ Apart from a standard Anaconda Python 3 installation, this exam project requires
 - **Matplotlib.pyplot**: We use the *Matplotlib.pyplot*-package to plot some of the results in graphs.
 - **Scipy**: We use the *Scipy*-package to optimize some of the objective functions in the project (minimize and minimize scalar).
 - **NumPy**: We use the *NumPy*-package to store endowments in numpy arrays and generate pseduo-random numbers.
-- **examproject.py**: We use the *examproject.py*-file to store the classes and the code. It has three classes: ProductionEconomyClass ([Problem 1](examproject.ipynb#toc1_)), ConsumerChoiceModelClass ([Problem 2 - Career choice model](examproject.ipynb#toc2_)), BarycentricInterpolation (Problem 3).
+- **examproject.py**: We use the *examproject.py*-file to store the classes and the code. It has three classes: ProductionEconomyClass ([Problem 1](examproject.ipynb#toc1_)), ConsumerChoiceModelClass ([Problem 2](examproject.ipynb#toc2_)), BarycentricInterpolationClass ([Problem 3](examproject.ipynb#toc3_)).
