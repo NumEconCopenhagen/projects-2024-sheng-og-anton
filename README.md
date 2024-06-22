@@ -18,12 +18,11 @@ We fetch data from **Danmarks Statistik (Statistikbanken)** on **Exchange rates 
 
 **[Model Project - Steady State in the Real Business Cycle Model](./modelproject)**
 ---
-We numerically solve the simple Real Business Cycle Model (RBC-model), where technology, A, is exogenous and set to 1. Furthermore, we extend the model by using a CES production function instead of a Cobb-Douglas production function. The code of the equations in the system are inspired by [Chad Fulton (2015)](https://github.com/ChadFulton/tsa-notebooks/blob/master/estimating_rbc.ipynb), however, we modify the technology equation and production function in the extension of the model. Lastly, we calibrate the model by analyzing how the steady state values change as a result of different parameter values. 
+We numerically solve a simple Real Business Cycle Model (RBC model), where technology, A, is exogenous and set to 1. Furthermore, we extend the model by using a CES production function instead of a Cobb-Douglas production function. The code of the equations in the system are mostly from [Chad Fulton (2015)](https://github.com/ChadFulton/tsa-notebooks/blob/master/estimating_rbc.ipynb), however, we modify the technology equation and production function in the extension of the model. Lastly, we calibrate the model by analyzing how the steady state values change as a result of different parameter values. 
 
 **[Exam Project - ](./examproject)**
 ---
-It is about the production economy with CO2 taxation (Problem 1), Career choice model (problem 2), and Barycentric interpolation (problem 3).
+It is about the production economy with CO2 taxation (problem 1), Career choice model (problem 2), and Barycentric interpolation (problem 3).
 
 ## Use of AI tools
----
-We have in all of these projects used AI tools (ChatGPT 4o) to optimize our code and to get inspired when we felt stuck as a result of bugs.  
+In all of these projects, we have used AI tools (ChatGPT 4o) to optimize our code and to get inspired, when we felt stuck because of bugs.
