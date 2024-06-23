@@ -411,17 +411,17 @@ class RBCCESClass(object):
                 technology (float): The production technologies which the firms have acces to.
                 rho (float): The substitution parameter.
         """
-        # i. The first element in the tuple should be the discount rate, beta
+        # i. The first element in the tuple should be the discount rate
         self.discount_rate = params[0]
-        # ii. The second element is the disutility from labor, psi
+        # ii. The second element is the disutility from labor
         self.disutility_from_labor = params[1]
-        # iii. The third element is the depreciation rate, delta
+        # iii. The third element is the depreciation rate
         self.depreciation_rate = params[2]
-        # iv. The fourth element is the capital share, alpha
+        # iv. The fourth element is the capital share
         self.capital_share = params[3]
-        # v. The fifth element is technology, A
+        # v. The fifth element is technology
         self.technology = params[4]
-        # vi. The sixth element is the substitution parameter, rho
+        # vi. The sixth element is the substitution parameter
         self.rho = params[5]
 
     # b. Define the root-evaluated variables for both period t and period t+1
