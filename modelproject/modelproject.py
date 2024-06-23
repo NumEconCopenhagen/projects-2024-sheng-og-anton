@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt # Uses this to plot graphs
 plt.rcParams.update({"axes.grid":True,"grid.color":"black","grid.alpha":"0.25","grid.linestyle":"--"})
 plt.rcParams.update({'font.size': 15})
 
-# 3. We create a class that defines all of the variables, parameters, and equations for the RBC model
+# 3. We create a class that defines all of the variables, parameters, and equations for the RBC model, which is based on Chad Fulton (2015)
 class RealBusinessCycleModelClass(object):
     """
     A class for the Real Business Cycle (RBC) model with log-linearized equations.
@@ -109,7 +109,7 @@ class RealBusinessCycleModelClass(object):
             self.log_labor_leisure_constraint(next_period_log_labor, next_period_log_leisure),
         ]
     
-    # c. We define the first equation in the model, which is the FOC (1)
+    # c. We define the first equation in the model, which is the FOC
     def log_first_order_condition(self, next_period_log_consumption, next_period_log_labor,
                        next_period_log_capital):
         """
@@ -126,7 +126,7 @@ class RealBusinessCycleModelClass(object):
         return (np.log(self.disutility_from_labor) + next_period_log_consumption - np.log(1 - self.capital_share) -
                 np.log(self.technology) - self.capital_share * (next_period_log_capital - next_period_log_labor))
 
-    # d. We define the second equation in the RBC model, which is the consumption Euler equation (2)
+    # d. We define the second equation in the RBC model, which is the consumption Euler equation
     def log_euler_equation(self, next_period_log_consumption, next_period_log_labor,
                             next_period_log_capital, this_period_log_consumption):
         """
@@ -208,7 +208,7 @@ class RealBusinessCycleModelClass(object):
         """
         return (-np.log(np.exp(next_period_log_labor) + np.exp(next_period_log_leisure)))
 
-# 4. Next, we need to make a class that calculates the numerical solution to the RBC model
+# 4. Next, we need to make a class that calculates the numerical solution to the RBC model, which is also based on Chad Fulton (2015)
 class NumericalSolutionClass(RealBusinessCycleModelClass):
     """
     Class which calculates the numerical solution to the simple Real Business Cycle model.
