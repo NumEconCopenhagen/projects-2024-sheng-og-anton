@@ -169,7 +169,7 @@ class CareerChoice:
         realized_utility = self.v + np.mean(epsilon, axis=1)
         
         # Print results
-        print("Average Expected Utility for each career track:")
+        print("Expected Utility for each career track:")
         for j in range(self.J):
             print(f"Career choice {j+1}: {average_expected_utility[j]:.4f}")
         
@@ -184,7 +184,7 @@ class CareerChoice:
         realized_utilities = np.zeros(self.N)
 
         # Simulation
-        np.random.seed(42)  # For reproducibility
+        np.random.seed(69)  # For reproducibility
         for k in range(self.K):
             for i in range(self.N):
                 F_i = i + 1  # Number of friends for graduate i (1 to N)
@@ -211,17 +211,21 @@ class CareerChoice:
         avg_subjective_utility = subjective_utilities / self.K
         avg_realized_utility = realized_utilities / self.K
 
+        
         # Plot the results
         plt.figure(figsize=(18, 6))
 
         # Share of graduates choosing each career
         plt.subplot(1, 3, 1)
+        bar_width = 0.2
         for j in range(self.J):
-            plt.plot(range(1, self.N + 1), career_share[:, j], label=f'Career {j+1}')
+            plt.bar(np.arange(self.N) + j * bar_width, career_share[:, j], width=bar_width, label=f'Career {j+1}')
+
         plt.xlabel('Graduate Type (i)')
         plt.ylabel('Share Choosing Career')
-        plt.legend()
         plt.title('Share of Graduates Choosing Each Career')
+        plt.xticks(np.arange(self.N) + (self.J - 1) * bar_width / 2, np.arange(1, self.N + 1))
+        plt.legend()
 
         # Average subjective expected utility
         plt.subplot(1, 3, 2)
@@ -297,47 +301,51 @@ class CareerChoice:
         avg_realized_utility = realized_utilities / self.K
         switch_share = switch_counts / self.K
 
-        # Plot the results
+         # Plot the results
         plt.figure(figsize=(18, 12))
 
-        # Share of graduates choosing each career initially
+        # Share of graduates choosing each career initially (Bar plot)
         plt.subplot(2, 3, 1)
+        bar_width = 0.35
         for j in range(self.J):
-            plt.plot(range(1, self.N + 1), initial_career_share[:, j], label=f'Career {j+1}')
+            plt.bar(np.arange(self.N) + j * bar_width, initial_career_share[:, j], width=bar_width, label=f'Career {j+1}')
         plt.xlabel('Graduate Type (i)')
         plt.ylabel('Share Choosing Career')
+        plt.xticks(np.arange(self.N) + bar_width, np.arange(1, self.N + 1))
         plt.legend()
         plt.title('Share of Graduates Choosing Each Career Initially')
 
-        # Share of graduates choosing each career after potential switch
+        # Share of graduates choosing each career after potential switch (Bar plot)
         plt.subplot(2, 3, 2)
         for j in range(self.J):
-            plt.plot(range(1, self.N + 1), final_career_share[:, j], label=f'Career {j+1}')
+            plt.bar(np.arange(self.N) + j * bar_width, final_career_share[:, j], width=bar_width, label=f'Career {j+1}')
         plt.xlabel('Graduate Type (i)')
         plt.ylabel('Share Choosing Career')
+        plt.xticks(np.arange(self.N) + bar_width, np.arange(1, self.N + 1))
         plt.legend()
         plt.title('Share of Graduates Choosing Each Career After Potential Switch')
 
-        # Average subjective expected utility
+        # Average subjective expected utility (Line plot)
         plt.subplot(2, 3, 3)
         plt.plot(range(1, self.N + 1), avg_subjective_utility, marker='o')
         plt.xlabel('Graduate Type (i)')
         plt.ylabel('Average Subjective Expected Utility')
         plt.title('Average Subjective Expected Utility')
 
-        # Average realized utility
+        # Average realized utility (Line plot)
         plt.subplot(2, 3, 4)
         plt.plot(range(1, self.N + 1), avg_realized_utility, marker='o')
         plt.xlabel('Graduate Type (i)')
         plt.ylabel('Average Realized Utility')
         plt.title('Average Realized Utility')
 
-        # Share of graduates switching careers
+        # Share of graduates switching careers (Bar plot)
         plt.subplot(2, 3, 5)
         for j in range(self.J):
-            plt.plot(range(1, self.N + 1), switch_share[:, j], label=f'Initial Career {j+1}')
+            plt.bar(np.arange(self.N) + j * bar_width, switch_share[:, j], width=bar_width, label=f'Initial Career {j+1}')
         plt.xlabel('Graduate Type (i)')
         plt.ylabel('Share Switching Careers')
+        plt.xticks(np.arange(self.N) + bar_width, np.arange(1, self.N + 1))
         plt.legend()
         plt.title('Share of Graduates Switching Careers')
 
