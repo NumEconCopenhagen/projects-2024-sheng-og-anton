@@ -53,7 +53,7 @@ class ProductionEconomy:
 
     def evaluate_equilibrium(self, p1, p2):
         # Evaluate equilibrium conditions for given prices p1 and p2
-        good1_clearing, good2_clearing = self.compute_market_clearing(p1, p2)[1:3]  # Get excess demands for goods 1 and 2
+        good1_clearing, good2_clearing = self.compute_market_clearing(p1, p2)[1:3] 
         return good1_clearing, good2_clearing
 
     def compute_market_clearing_grid(self):
@@ -67,30 +67,16 @@ class ProductionEconomy:
                 
                 print(f'p1 = {p1:.2f}, p2 = {p2:.2f} -> Good market 1 = {good1_clearing:.8f}, Good market 2 = {good2_clearing:.8f}')
 
-    def find_sign_change(self, grid):
-        # Find where the excess demand changes sign
-        sign_change_indices = np.where(np.diff(np.sign(grid), axis=0))[0]  # Find indices where the sign changes
-        if len(sign_change_indices) > 0:
-            # Return the grid points around the sign change
-            return self.p1_grid[sign_change_indices[0]], self.p1_grid[sign_change_indices[0] + 1]
-        else:
-            return None, None
-
-    def find_equilibrium_prices(self):
-        # Find equilibrium prices for goods 1 and 2
-        p1_left, p1_right = self.find_sign_change(self.grid_mkt_clearing_1)  # Find sign change for good 1
-        p2_left, p2_right = self.find_sign_change(self.grid_mkt_clearing_2)  # Find sign change for good 2
-        return p1_left, p1_right, p2_left, p2_right
 
     def find_equilibrium_price_p1(self, p2_left, p2_right):
         # Find equilibrium price for good 1 with a fixed price range for good 2
         fixed_p2 = np.mean([p2_left, p2_right])  # Fix the price of good 2
         
-        def excess_demand_p1(p1):
+        def good1(p1):
             # Calculate excess demand for good 1
             return self.evaluate_equilibrium(p1, fixed_p2)[0]  # Only the first component (good 1)
         
-        res_p1 = root_scalar(excess_demand_p1, bracket=[self.p1_grid[0], self.p1_grid[-1]], method='bisect')  # Find root
+        res_p1 = root_scalar(good1, bracket=[self.p1_grid[0], self.p1_grid[-1]], method='bisect')  # Find root
         if res_p1.converged:
             return res_p1.root
         else:
@@ -100,11 +86,11 @@ class ProductionEconomy:
         # Find equilibrium price for good 2 with a fixed price range for good 1
         fixed_p1 = np.mean([p1_left, p1_right])  # Fix the price of good 1
         
-        def excess_demand_p2(p2):
+        def good2(p2):
             # Calculate excess demand for good 2
             return self.evaluate_equilibrium(fixed_p1, p2)[1]  # Only the second component (good 2)
         
-        res_p2 = root_scalar(excess_demand_p2, bracket=[self.p2_grid[0], self.p2_grid[-1]], method='bisect')  # Find root
+        res_p2 = root_scalar(good2, bracket=[self.p2_grid[0], self.p2_grid[-1]], method='bisect')  # Find root
         if res_p2.converged:
             return res_p2.root
         else:
@@ -167,7 +153,7 @@ class CareerChoice:
         epsilon = np.random.normal(0, self.sigma, (self.J, self.K))
         
         # Calculate expected utility for each career track
-        expected_utility = self.v[:, np.newaxis] + np.mean(epsilon, axis=1)[:, np.newaxis]
+        expected_utility = self.v[:, np.newaxis] + np.mean(epsilon, axis=1)[:, np.newaxis] / self.K
         average_expected_utility = np.mean(expected_utility, axis=1)
         
         # Realized utility
