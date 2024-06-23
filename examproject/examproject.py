@@ -4,8 +4,7 @@ from scipy.optimize import minimize, root_scalar
 from types import SimpleNamespace
 import matplotlib.pyplot as plt
 
-# Problemset 1: Production economy and CO2 taxation
-
+# 1. Problemset 1: Production economy and CO2 taxation
 class ProductionEconomy:
     def __init__(self):
         # Parameters
@@ -130,11 +129,7 @@ class ProductionEconomy:
         else:
             return None, None
 
-
-
-# Problem 2: Career Choice Model
-
-
+# 2. Problem 2: Career Choice Model
 class CareerChoice:
 
     def __init__(self, J=3, N=10, K=10000, sigma=2, v=np.array([1, 2, 3]), c=1):
@@ -236,7 +231,7 @@ class CareerChoice:
         plt.tight_layout()
         plt.show()
     
-    #Question 3
+    # Question 3
     def simulate_and_plot_switching(self):
         # Storage for results
         initial_career_choices = np.zeros((self.N, self.J))
@@ -345,13 +340,13 @@ class CareerChoice:
         plt.tight_layout()
         plt.show()
 
-# 
+# 3. Problem 2: Career Choice Model
 class BarycentricInterpolationClass:
     """
     A class which does barycentric interpolation and finds a point (y) inside triangles using an algorithm.
 
     Attributes:
-        X (np.ndarray): A NumPy array of random points in a unit square.
+        X (np.ndarray): A NumPy array of the random points (x) in a unit square.
     """
     
     def __init__(self, X): 
@@ -362,7 +357,6 @@ class BarycentricInterpolationClass:
             X (np.ndarray): The NumPy array of points.
         """
         self.X = X
-        self.F = None  # F is not set during initialization
 
     def set_F(self, F):
         """
@@ -385,10 +379,14 @@ class BarycentricInterpolationClass:
             (np.ndarray): The nearest point satisfying the condition.
             (None): If the condition is not met.
         """
+        # i. Calculates the distance for the points
         distances = np.sqrt(np.sum((self.X - y) ** 2, axis=1))
+        # ii. A list comprehension for the points the X set to check the condition (s.t.) x1 > y1 and x2 > y2
         valid_indices = [i for i in range(len(self.X)) if condition(self.X[i], y)]
+        # iii. If the points in the X set does not satisfy the condition, then the result will be None
         if not valid_indices:
             return None
+        # iv. Minimize the distances to find the nearest point
         nearest_index = min(valid_indices, key=lambda i: distances[i])
         return self.X[nearest_index]
 
@@ -405,6 +403,7 @@ class BarycentricInterpolationClass:
             C (np.ndarray): A NumPy array that contains the coordinates for the point C. 
             D (np.ndarray): A NumPy array that contains the coordinates for the point D. 
         """
+        # i. Finds the points using the minimization of distance and the conditions (s.t.)
         A = self.find_the_nearest_point(y, lambda p, y: p[0] > y[0] and p[1] > y[1])
         B = self.find_the_nearest_point(y, lambda p, y: p[0] > y[0] and p[1] < y[1])
         C = self.find_the_nearest_point(y, lambda p, y: p[0] < y[0] and p[1] < y[1])
@@ -416,7 +415,10 @@ class BarycentricInterpolationClass:
         Computes the three barycentric coordinates (r1, r2, and r3) of y in the specified triangle.
 
         Args:
-            A, B, C, D (np.ndarray): The points of the triangle.
+            A (np.ndarray): The coordinates for the point A.
+            B (np.ndarray): The coordinates for the point B.
+            C (np.ndarray): The coordinates for the point C.
+            D (np.ndarray): The coordinates for the point D.
             y (np.ndarray): The coordinates for the point y.
             triangle_type (str): The type of triangle ('ABC' or 'CDA').
 
@@ -425,21 +427,31 @@ class BarycentricInterpolationClass:
             r2 (float): The second barycentric coordinate.
             r3 (float): The third barycentric coordinate.
         """
+        # i. If the triangle type is ABC then it calculates the barycentric coordinates (r1 and r2) for the ABC triangle
         if triangle_type == 'ABC':
             denominator = (B[1] - C[1]) * (A[0] - C[0]) + (C[0] - B[0]) * (A[1] - C[1])
             r1 = ((B[1] - C[1]) * (y[0] - C[0]) + (C[0] - B[0]) * (y[1] - C[1])) / denominator
             r2 = ((C[1] - A[1]) * (y[0] - C[0]) + (A[0] - C[0]) * (y[1] - C[1])) / denominator
+        # ii. If the triangle type is CDA then it calculates the barycentric coordinates (r1 and r2) for the CDA triangle
         elif triangle_type == 'CDA':
             denominator = (D[1] - A[1]) * (C[0] - A[0]) + (A[0] - D[0]) * (C[1] - A[1])
             r1 = ((D[1] - A[1]) * (y[0] - A[0]) + (A[0] - D[0]) * (y[1] - A[1])) / denominator
             r2 = ((A[1] - C[1]) * (y[0] - A[0]) + (C[0] - A[0]) * (y[1] - A[1])) / denominator
+        # iv. ValueError message if another type of triangle was typed
         else:
             raise ValueError("Invalid triangle type. Only 'ABC' or 'CDA' can be entered.")
-        
-        r3 = 1 - r1 - r2
-        return round(r1, 2), round(r2, 2), round(r3, 2)
 
-    def inside_triangle_check(self, r):
+        # v. Calculates the third barycentric coordinate
+        r3 = 1 - r1 - r2
+
+        # vi. Rounds the barycentric coordinates to two decimals
+        r1 = round(r1, 2)
+        r2 = round(r2, 2)
+        r3 = round(r3, 2)
+
+        return r1, r2, r3
+
+    def triangle_check(self, r):
         """
         Checks if the point with barycentric coordinates (r1, r2, and r3) is inside the triangle.
 
@@ -462,27 +474,39 @@ class BarycentricInterpolationClass:
             (float): Returns the interpolated value if the point y is inside either ABC triangle or the CDA triangle. 
             (np.ndarray): Returns NaN if the point y is not inside the ABC triangle or the CDA triangle.
         """
+        # i. Finds the points of the triangle from previous method 
         if self.F is None:
             raise ValueError("Function values F are not set. Please set F using the set_F method.")
         
+        # ii. Step 1 - Calculate the points A, B, C, and D from previous method
         A, B, C, D = self.find_the_triangle_points(y)
         
+        # iii. Checks if the points A, B, C, and D are none, then it should return NaN
         if A is None or B is None or C is None or D is None:
             return np.nan
         
+        # iv. Compute the barycentric coordinates for the ABC triangle
         rABC = self.barycentric_coordinates(A, B, C, D, y, triangle_type='ABC')
+        
+        # v. Compute the barycentric coordinates for the CDA method
         rCDA = self.barycentric_coordinates(A, B, C, D, y, triangle_type='CDA')
         
+        # vi. Rounds the barycentric coordinates
         rABC = np.round(rABC, 2)
         rCDA = np.round(rCDA, 2)
 
-        if self.inside_triangle_check(rABC):
+        # vii. Step 2 - Checks if the point y is in the ABC triangle
+        if self.triangle_check(rABC):
+            # vii.a If it is, then return the interpolated value: rABC1 * f(A) + rABC2 * f(B) + rABC3 * f(C)
             return rABC[0] * self.F[np.where((self.X == A).all(axis=1))[0][0]] + \
                    rABC[1] * self.F[np.where((self.X == B).all(axis=1))[0][0]] + \
                    rABC[2] * self.F[np.where((self.X == C).all(axis=1))[0][0]]
-        elif self.inside_triangle_check(rCDA):
+        # viii. Step 3 - Checks if the point y is in the triangle CDA
+        elif self.triangle_check(rCDA):
+            # vii.a If it is, then return the interpolated value: rCDA1 * f(C) + rCDA2 * f(D) + rCDA3 * f(A)
             return rCDA[0] * self.F[np.where((self.X == C).all(axis=1))[0][0]] + \
                    rCDA[1] * self.F[np.where((self.X == D).all(axis=1))[0][0]] + \
                    rCDA[2] * self.F[np.where((self.X == A).all(axis=1))[0][0]]
+        # xiv. Step 4 - If the point y is not inside one of the triangles then return NaN 
         else:
             return np.nan
