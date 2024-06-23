@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import numpy as np
 from scipy.optimize import minimize
 from scipy import optimize
@@ -90,39 +89,18 @@ class ProductionEconomyClass:
 
         return errors
 
-class CareerChoiceModelClass:
-    """
-
-    """
-    def __init__(self, J=3, N=10, K=10000, sigma=2, v=np.array([1, 2, 3]), c=1):
-        """
-
-
-        """
-        self.par = SimpleNamespace()
-        
-=======
-
-
-
 # Problem 2: Career Choice Model
-
-
-import numpy as np
-from types import SimpleNamespace
-import matplotlib.pyplot as plt
-class CareerChoice:
-
+class CareerChoiceModelClass:
     def __init__(self, J=3, N=10, K=10000, sigma=2, v=np.array([1, 2, 3]), c=1):
+        
         self.par = SimpleNamespace()
->>>>>>> 9feec3c5837eb8bfdcaa9e42ff68f3c94ea317b7
+
         self.J = J  # Number of career tracks
         self.N = N  # Number of graduates
         self.K = K  # Number of simulations
         self.sigma = sigma  # Standard deviation
         self.v = v  # Array of values for each career track
         self.c = c  # Switching cost
-<<<<<<< HEAD
         np.random.seed(69) # Seed to reproduce results
     
     def simulate_career_choices(self):
@@ -131,12 +109,6 @@ class CareerChoice:
 
         """
         # Simulate the expected utility
-=======
-    
-    def simulate_career_choices(self):
-        # Simulate the expected utility
-        np.random.seed(42)  # For reproducibility
->>>>>>> 9feec3c5837eb8bfdcaa9e42ff68f3c94ea317b7
         epsilon = np.random.normal(0, self.sigma, (self.J, self.K))
         
         # Calculate expected utility for each career track
@@ -156,23 +128,16 @@ class CareerChoice:
             print(f"Career choice {j+1}: {realized_utility[j]:.4f}")
     
     def simulate_and_plot(self):
-<<<<<<< HEAD
         """
 
 
         """
-=======
->>>>>>> 9feec3c5837eb8bfdcaa9e42ff68f3c94ea317b7
         # Storage for results
         career_choices = np.zeros((self.N, self.J))
         subjective_utilities = np.zeros(self.N)
         realized_utilities = np.zeros(self.N)
 
         # Simulation
-<<<<<<< HEAD
-=======
-        np.random.seed(42)  # For reproducibility
->>>>>>> 9feec3c5837eb8bfdcaa9e42ff68f3c94ea317b7
         for k in range(self.K):
             for i in range(self.N):
                 F_i = i + 1  # Number of friends for graduate i (1 to N)
@@ -227,17 +192,12 @@ class CareerChoice:
 
         plt.tight_layout()
         plt.show()
-<<<<<<< HEAD
 
     def simulate_and_plot_switching(self):
         """
 
 
         """
-=======
-    
-    def simulate_and_plot_switching(self):
->>>>>>> 9feec3c5837eb8bfdcaa9e42ff68f3c94ea317b7
         # Storage for results
         initial_career_choices = np.zeros((self.N, self.J))
         final_career_choices = np.zeros((self.N, self.J))
@@ -246,10 +206,6 @@ class CareerChoice:
         switch_counts = np.zeros((self.N, self.J))  # Track switching counts by initial choice
 
         # Simulation
-<<<<<<< HEAD
-=======
-        np.random.seed(42)  # For reproducibility
->>>>>>> 9feec3c5837eb8bfdcaa9e42ff68f3c94ea317b7
         for k in range(self.K):
             for i in range(self.N):
                 F_i = i + 1  # Number of friends for graduate i (1 to N)
@@ -344,7 +300,6 @@ class CareerChoice:
         plt.tight_layout()
         plt.show()
 
-<<<<<<< HEAD
 # 
 class BarycentricInterpolationClass:
     """
@@ -506,6 +461,3 @@ class BarycentricInterpolationClass:
         # vii.
         else:
             return np.nan
-=======
-        
->>>>>>> 9feec3c5837eb8bfdcaa9e42ff68f3c94ea317b7
