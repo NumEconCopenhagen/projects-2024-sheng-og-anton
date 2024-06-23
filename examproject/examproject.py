@@ -1,114 +1,164 @@
 import numpy as np
-from scipy.optimize import minimize
-from scipy import optimize
-import pandas as pd
-import matplotlib.pyplot as plt
+from scipy.optimize import root_scalar
+from scipy.optimize import minimize, root_scalar
 from types import SimpleNamespace
-from scipy.optimize import minimize_scalar
+import matplotlib.pyplot as plt
 
-class ProductionEconomyClass:
+# Problemset 1: Production economy and CO2 taxation
+
+class ProductionEconomy:
     def __init__(self):
-        par = self.par = SimpleNamespace()
+        self.par = SimpleNamespace()
+        self.par.A = 1.0
+        self.par.gamma = 0.5
+        self.par.alpha = 0.3
+        self.par.nu = 1.0
+        self.par.epsilon = 2.0
+        self.par.tau = 0.0
+        self.par.T = 0.0
+        self.par.kappa = 0.1
+        
+        self.num_p = 10
+        self.p1_grid = np.linspace(0.1, 2.0, self.num_p)
+        self.p2_grid = np.linspace(0.1, 2.0, self.num_p)
+        
+        self.grid_mkt_clearing_1 = np.zeros((self.num_p, self.num_p))
+        self.grid_mkt_clearing_2 = np.zeros((self.num_p, self.num_p))
+        
+    def compute_implied_profits(self, p, w):
+        return (1 - self.par.gamma) / self.par.gamma * w * (p * self.par.A * self.par.gamma / w) ** (1 / (1 - self.par.gamma))
 
-        # a. parameters
-        par.A = 1.0
-        par.gamma = 0.5
-        par.alpha = 0.3
-        par.nu = 1.0
-        par.epsilon = 2.0
-        par.tau = 0.0
-        par.T = 0.0
-        par.num_p1 = 10
-        par.num_p2 = 10
-        par.grid_p1 = np.linspace(0.1, 2.0, par.num_p1)
-        par.grid_p2 = np.linspace(0.1, 2.0, par.num_p2)
-
-        # b. solution
-        sol = self.sol = SimpleNamespace()
-        sol.w = 1  # numeraire
-
-    def firm_behavior(self, p):
-        """ Firm behavior """
-        par = self.par
-        w = self.sol.w
-        l_star = (p * par.A * par.gamma / w) ** (1 / (1 - par.gamma))
-        y_star = par.A * l_star ** par.gamma
-        pi_star = ((1 - par.gamma) / par.gamma) * w * l_star
-        return l_star, y_star, pi_star
-
-    def consumer_behavior(self, l, p1, p2):
-        """ Consumer behavior """
-        par = self.par
-        w = self.sol.w
-        T = par.T
-        pi1_star = self.firm_behavior(p1)[2]
-        pi2_star = self.firm_behavior(p2)[2]
-        c1 = par.alpha * (w * l + T + pi1_star + pi2_star) / p1
-        c2 = (1 - par.alpha) * (w * l + T + pi1_star + pi2_star) / (p2 + par.tau)
-        return c1, c2
-
-    def labor_supply(self, p1, p2):
-        """ Labor supply """
-        par = self.par
-        w = self.sol.w
-        T = par.T
-        l_values = np.linspace(0, 10, 100)
-        utilities = [np.log((self.consumer_behavior(l, p1, p2)[0] ** par.alpha) * (self.consumer_behavior(l, p1, p2)[1] ** (1 - par.alpha))) - par.nu * (l ** (1 + par.epsilon)) / (1 + par.epsilon) for l in l_values]
-        max_index = np.argmax(utilities)
-        l = l_values[max_index]
-        return l
+    def compute_market_clearing(self, p1, p2, w=1.0):
+        pi1_optimal = self.compute_implied_profits(p1, w)
+        pi2_optimal = self.compute_implied_profits(p2, w)
+        
+        ell1_optimal = (p1 * self.par.A * self.par.gamma / w) ** (1 / (1 - self.par.gamma))
+        ell2_optimal = (p2 * self.par.A * self.par.gamma / w) ** (1 / (1 - self.par.gamma))
+        ell_optimal = ell1_optimal + ell2_optimal
+        
+        c1_optimal = self.par.alpha * (w * ell_optimal + self.par.T + pi1_optimal + pi2_optimal) / p1
+        c2_optimal = (1 - self.par.alpha) * (w * ell_optimal + self.par.T + pi1_optimal + pi2_optimal) / (p2 + self.par.tau)
+        
+        y1_optimal = self.par.A * ell1_optimal ** self.par.gamma
+        y2_optimal = self.par.A * ell2_optimal ** self.par.gamma
+        
+        labor_clearing = ell_optimal
+        good1_clearing = c1_optimal - y1_optimal
+        good2_clearing = c2_optimal - y2_optimal
+        
+        return labor_clearing, good1_clearing, good2_clearing
 
     def evaluate_equilibrium(self, p1, p2):
-        """ Evaluate equilibrium for given p1 and p2 """
-        l = self.labor_supply(p1, p2)
-        c1, c2 = self.consumer_behavior(l, p1, p2)
-        l1, y1, _ = self.firm_behavior(p1)
-        l2, y2, _ = self.firm_behavior(p2)
-        eps1 = c1 - y1
-        eps2 = c2 - y2
-        return eps1, eps2
+        good1_clearing, good2_clearing = self.compute_market_clearing(p1, p2)[1:3]
+        return good1_clearing, good2_clearing
 
-    def check_market_clearing(self):
-        """
-        Checks market clearing conditions across a range of prices.
+    def compute_market_clearing_grid(self):
+        for i, p1 in enumerate(self.p1_grid):
+            for j, p2 in enumerate(self.p2_grid):
+                good1_clearing, good2_clearing = self.evaluate_equilibrium(p1, p2)
+                
+                self.grid_mkt_clearing_1[i, j] = good1_clearing
+                self.grid_mkt_clearing_2[i, j] = good2_clearing
+                
+                print(f'p1 = {p1:.2f}, p2 = {p2:.2f} -> Good market 1 = {good1_clearing:.8f}, Good market 2 = {good2_clearing:.8f}')
 
-        Returns:
-            errors (list): A list which contains a tuple of the errors for the two market clearing conditions.
-                (tuple): A tuple which contains the two errors (eps1 and eps2) for the market clearing conditions.
-                    eps1 (float): Error in the market clearing condition for good 1.
-                    eps2 (float): Error in the market clearing condition for good 2.
-        """
-        par = self.par
-        errors = []
+# Question 2
+    def find_sign_change(self, grid):
+       sign_change_indices = np.where(np.diff(np.sign(grid), axis=0))[0]
+       if len(sign_change_indices) > 0:
+        return self.p1_grid[sign_change_indices[0]], self.p1_grid[sign_change_indices[0] + 1]
+       else:
+        return None, None
 
-        for p1 in par.grid_p1:
-            for p2 in par.grid_p2:
-                eps1, eps2 = self.evaluate_equilibrium(p1, p2)
-                errors.append((eps1, eps2))
-                print(f'p1 = {p1:.2f}, p2 = {p2:.2f} -> excess demand 1 = {eps1:12.8f}, excess demand 2 = {eps2:12.8f}')
+    def find_equilibrium_prices(self):
+        p1_left, p1_right = self.find_sign_change(self.grid_mkt_clearing_1)
+        p2_left, p2_right = self.find_sign_change(self.grid_mkt_clearing_2)
+        return p1_left, p1_right, p2_left, p2_right
 
-        return errors
+    
+    def find_equilibrium_price_p1(self, p2_left, p2_right):
+        fixed_p2 = np.mean([p2_left, p2_right])
+        
+        def excess_demand_p1(p1):
+            return self.evaluate_equilibrium(p1, fixed_p2)[0]  # Only the first component (p1)
+        
+        res_p1 = root_scalar(excess_demand_p1, bracket=[self.p1_grid[0], self.p1_grid[-1]], method='bisect')
+        if res_p1.converged:
+            return res_p1.root
+        else:
+            return None
+
+    def find_equilibrium_price_p2(self, p1_left, p1_right):
+        fixed_p1 = np.mean([p1_left, p1_right])  # Corrected from using p2_left and p2_right
+        
+        def excess_demand_p2(p2):
+            return self.evaluate_equilibrium(fixed_p1, p2)[1]  # Only the second component (p2)
+        
+        res_p2 = root_scalar(excess_demand_p2, bracket=[self.p2_grid[0], self.p2_grid[-1]], method='bisect')
+        if res_p2.converged:
+            return res_p2.root
+        else:
+            return None
+        
+    #Question 3
+
+    def compute_market(self, p1, p2, w=1):
+        # Compute implied profits
+        pi1_optimal = self.compute_implied_profits(p1, w)
+        pi2_optimal = self.compute_implied_profits(p2, w)
+        
+        # Define the optimal labor supply
+        ell1_optimal = (p1 * self.par.A * self.par.gamma / w) ** (1 / (1 - self.par.gamma))
+        ell2_optimal = (p2 * self.par.A * self.par.gamma / w) ** (1 / (1 - self.par.gamma))
+        ell_optimal = ell1_optimal + ell2_optimal
+        
+        # Optimal consumption for given optimal labor supply
+        c1_optimal = self.par.alpha * (w * ell_optimal + self.par.T + pi1_optimal + pi2_optimal) / p1
+        c2_optimal = (1 - self.par.alpha) * (w * ell_optimal + self.par.T + pi1_optimal + pi2_optimal) / (p2 + self.par.tau)
+        
+        # Optimal production of y2
+        y2_optimal = self.par.A * ell2_optimal ** self.par.gamma
+        
+        # Return all necessary values
+        return c1_optimal, c2_optimal, ell_optimal, y2_optimal
+
+    def objective(self, x, p1, p2):
+        tau, T = x
+        c1_optimal, c2_optimal, ell_optimal, y2_optimal = self.compute_market(p1, p2 + tau, 1.0)
+        # Correct utility calculation including the disutility of labor
+        U = np.log(c1_optimal ** self.par.alpha * c2_optimal ** (1 - self.par.alpha)) - self.par.nu * (ell_optimal ** (1 + self.par.epsilon)) / (1 + self.par.epsilon)
+        # Compute social welfare
+        SWF = U - self.par.kappa * y2_optimal
+        return -SWF  # Minimize the negative SWF to maximize SWF
+
+    def find_optimal_tau_T(self, p1, p2):
+        initial_guesses = [0.01, 0.01]
+        bounds = [(0, None), (0, None)]
+        result = minimize(self.objective, initial_guesses, args=(p1, p2), bounds=bounds, method='SLSQP')
+        if result.success:
+            return result.x[0], result.x[1]
+        else:
+            return None, None
+
+
 
 # Problem 2: Career Choice Model
-class CareerChoiceModelClass:
-    def __init__(self, J=3, N=10, K=10000, sigma=2, v=np.array([1, 2, 3]), c=1):
-        
-        self.par = SimpleNamespace()
 
+
+class CareerChoice:
+
+    def __init__(self, J=3, N=10, K=10000, sigma=2, v=np.array([1, 2, 3]), c=1):
+        self.par = SimpleNamespace()
         self.J = J  # Number of career tracks
         self.N = N  # Number of graduates
         self.K = K  # Number of simulations
         self.sigma = sigma  # Standard deviation
         self.v = v  # Array of values for each career track
         self.c = c  # Switching cost
-        np.random.seed(69) # Seed to reproduce results
     
     def simulate_career_choices(self):
-        """
-
-
-        """
         # Simulate the expected utility
+        np.random.seed(42)  # For reproducibility
         epsilon = np.random.normal(0, self.sigma, (self.J, self.K))
         
         # Calculate expected utility for each career track
@@ -128,16 +178,13 @@ class CareerChoiceModelClass:
             print(f"Career choice {j+1}: {realized_utility[j]:.4f}")
     
     def simulate_and_plot(self):
-        """
-
-
-        """
         # Storage for results
         career_choices = np.zeros((self.N, self.J))
         subjective_utilities = np.zeros(self.N)
         realized_utilities = np.zeros(self.N)
 
         # Simulation
+        np.random.seed(42)  # For reproducibility
         for k in range(self.K):
             for i in range(self.N):
                 F_i = i + 1  # Number of friends for graduate i (1 to N)
@@ -192,12 +239,8 @@ class CareerChoiceModelClass:
 
         plt.tight_layout()
         plt.show()
-
+    
     def simulate_and_plot_switching(self):
-        """
-
-
-        """
         # Storage for results
         initial_career_choices = np.zeros((self.N, self.J))
         final_career_choices = np.zeros((self.N, self.J))
@@ -206,6 +249,7 @@ class CareerChoiceModelClass:
         switch_counts = np.zeros((self.N, self.J))  # Track switching counts by initial choice
 
         # Simulation
+        np.random.seed(42)  # For reproducibility
         for k in range(self.K):
             for i in range(self.N):
                 F_i = i + 1  # Number of friends for graduate i (1 to N)
