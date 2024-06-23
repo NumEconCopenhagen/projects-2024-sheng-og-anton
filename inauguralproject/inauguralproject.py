@@ -686,5 +686,5 @@ class RandomParetoImprovementsClass:
         ax.set_ylim(0, 1)
 
         # viii. Add title and show the plot of the equilibrium allocations
-        plt.title('Market Equilibrium Allocations in the Edgeworth Box')
+        plt.title('Market equilibrium allocations in the Edgeworth Box')
         plt.show()
