@@ -155,7 +155,8 @@ class CareerChoice:
         self.sigma = sigma  # Standard deviation
         self.v = v  # Array of values for each career track
         self.c = c  # Switching cost
-    
+
+    # Question 1
     def simulate_career_choices(self):
         # Simulate the expected utility
         np.random.seed(42)  # For reproducibility
@@ -176,7 +177,8 @@ class CareerChoice:
         print("\nAverage Realized Utility for each career track:")
         for j in range(self.J):
             print(f"Career choice {j+1}: {realized_utility[j]:.4f}")
-    
+
+    # Question 2
     def simulate_and_plot(self):
         # Storage for results
         career_choices = np.zeros((self.N, self.J))
@@ -193,7 +195,7 @@ class CareerChoice:
                 epsilon_friends = np.random.normal(0, self.sigma, (self.J, F_i))
                 
                 # Calculate prior expected utility for each career track
-                prior_expected_utility = (self.v[:, np.newaxis] + epsilon_friends).mean(axis=1)
+                prior_expected_utility = self.v + np.mean(epsilon_friends, axis=1) / F_i
                 
                 # Draw own noise terms
                 epsilon_own = np.random.normal(0, self.sigma, self.J)
@@ -244,6 +246,7 @@ class CareerChoice:
         plt.tight_layout()
         plt.show()
     
+    #Question 3
     def simulate_and_plot_switching(self):
         # Storage for results
         initial_career_choices = np.zeros((self.N, self.J))
@@ -261,8 +264,8 @@ class CareerChoice:
                 # Simulate the noise terms for friends
                 epsilon_friends = np.random.normal(0, self.sigma, (self.J, F_i))
 
-                # Calculate prior expected utility for each career track
-                prior_expected_utility = self.v + np.mean(epsilon_friends, axis=1)
+                 # Calculate prior expected utility for each career track
+                prior_expected_utility = self.v + np.mean(epsilon_friends, axis=1) / F_i
 
                 # Draw own noise terms
                 epsilon_own = np.random.normal(0, self.sigma, self.J)
