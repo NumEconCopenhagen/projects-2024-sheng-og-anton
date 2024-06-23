@@ -213,7 +213,7 @@ class NumericalSolutionClass(RealBusinessCycleModelClass):
     """
     Class which calculates the numerical solution to the simple Real Business Cycle model.
 
-    Inherits from:
+    This class inherits from:
         RealBusinessCycleModelClass: This class defines the equations of the RBC model.
     """
     # a. Define the numeric solution for the steady-state values
@@ -573,7 +573,7 @@ class NumericalSolutionCESClass(RBCCESClass):
     """
     A class which numerically calculates the steady state for a RBC model with a CES production function.
 
-    Inherits from:
+    This class inherits from:
         RBCCESClass: This class contains the equations for the RBC model with a CES production function. 
     """
     def steady_state_numeric(self):
